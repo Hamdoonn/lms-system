@@ -1,9 +1,9 @@
-import { Button } from "./components/ui/button";
+import Router from "./routers/Router";
 
 function App() {
   return (
     <>
-      <Button>hello</Button>
+      <Router />
     </>
   );
 }
