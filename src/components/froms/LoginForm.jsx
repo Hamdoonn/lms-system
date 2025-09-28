@@ -1,10 +1,10 @@
+"use client";
 import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import {
   Form,
   FormField,
@@ -14,10 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
+import { toast, Toaster } from "sonner";
 
+// ✅ Define schema
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be 8 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 const LoginForm = () => {
@@ -31,54 +33,52 @@ const LoginForm = () => {
     },
   });
 
+  // ✅ Handle form submit
   function onSubmit(values) {
-    setLoading(true); // start spinner
+    setLoading(true);
 
     setTimeout(() => {
       const users = JSON.parse(localStorage.getItem("users")) || [];
 
-      // check if user exists with given credentials
       const validUser = users.find(
         (user) =>
           user.email === values.email && user.password === values.password
       );
 
       if (validUser) {
-        //store logged in user
+        // store logged in user
         localStorage.setItem("loggedInUser", JSON.stringify(validUser));
-        toast.success("Login Successful 🎉", {
-          description: `Welcome back, ${validUser.name}`,
-        });
+        toast.success("Login Successful 🎉");
 
-        if (validUser.role === "student") {
-          window.location.href = "/student/student-dashboard";
-        } else if (validUser.role === "instructor") {
-          window.location.href = "/instructore/instructor-dashboard";
-        } else if (validUser.role === "admin") {
-          window.location.href = "/admin/admin-dashboard";
-        } else {
-          window.location.href = "/dashboard";
-        }
+        // redirect after short delay so toast is visible
+        setTimeout(() => {
+          if (validUser.role === "student") {
+            window.location.href = "/student/student-dashboard";
+          } else if (validUser.role === "instructor") {
+            window.location.href = "/instructor/instructor-dashboard";
+          } else if (validUser.role === "admin") {
+            window.location.href = "/admin/admin-dashboard";
+          } else {
+            window.location.href = "/dashboard";
+          }
+        }, 1500);
       } else {
         toast.error("Login Failed ❌", {
           description: "Invalid email or password.",
         });
       }
 
-      setLoading(false); // stop spinner
-    }, 2000); // delay of 2 seconds
+      setLoading(false);
+    }, 2000);
   }
 
   return (
     <Form {...form}>
+      <Toaster position="top-center" richColors />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 max-w-md mx-auto"
       >
-        <button onClick={() => toast.success("Hello World!")}>
-          Show Toast
-        </button>
-
         {/* Email */}
         <FormField
           control={form.control}
@@ -109,7 +109,7 @@ const LoginForm = () => {
           )}
         />
 
-        {/* Submit */}
+        {/* Submit Button */}
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />

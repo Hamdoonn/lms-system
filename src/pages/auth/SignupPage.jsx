@@ -9,7 +9,7 @@ const SignupPage = () => {
         <div className="mb-8 flex flex-col gap-2">
           <h1 className="text-3xl font-semibold">Register Your Account</h1>
           <p className="text-neutral-500">
-            Already have an account?{""}
+            Already have an account?{" "}
             <Link to="/auth/Login" className="underline underline-offset-4">
               Login
             </Link>

@@ -3,7 +3,6 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// shadcn components
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +15,7 @@ import {
 } from "@/components/ui/form";
 
 import { toast } from "sonner";
-
+import { Toaster } from "sonner";
 const signupSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters"),
   email: z.string().email("Invalid email address"),
@@ -49,9 +48,7 @@ const SignupForm = () => {
     users.push(values);
     localStorage.setItem("users", JSON.stringify(users));
 
-    toast.success("Sign up Successful 🎉", {
-      description: "You can now login with your account",
-    });
+    toast.success("Sign up Successful 🎉");
 
     setTimeout(() => {
       window.location.href = "/auth/Login";
@@ -60,6 +57,7 @@ const SignupForm = () => {
 
   return (
     <Form {...form}>
+      <Toaster position="top-center" richColors />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-6 max-w-md mx-auto"
