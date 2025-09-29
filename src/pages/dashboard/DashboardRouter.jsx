@@ -1,14 +1,15 @@
+import { useRole } from "@/context/RoleContext";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import StudentDashboard from "@/pages/student/StudentDashboard";
+import { Navigate } from "react-router-dom";
 import React from "react";
 
 const DashboardRouter = () => {
-  const role = localStorage.getItem("role");
+  const { role } = useRole();
 
   if (!role) {
-    window.location.href = "/auth/Login";
-    return null;
+    return <Navigate to="/auth/Login" replace />;
   }
 
   switch (role) {
