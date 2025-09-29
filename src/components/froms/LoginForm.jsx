@@ -16,7 +16,7 @@ import {
 import { Loader2 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
-// ✅ Define schema
+// ✅ Validation Schema
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -33,7 +33,7 @@ const LoginForm = () => {
     },
   });
 
-  // ✅ Handle form submit
+  // ✅ Handle submit
   function onSubmit(values) {
     setLoading(true);
 
@@ -46,21 +46,15 @@ const LoginForm = () => {
       );
 
       if (validUser) {
-        // store logged in user
+        // store user + role
         localStorage.setItem("loggedInUser", JSON.stringify(validUser));
+        localStorage.setItem("role", validUser.role);
+
         toast.success("Login Successful 🎉");
 
-        // redirect after short delay so toast is visible
+        // redirect to dashboard (DashboardRouter decides view)
         setTimeout(() => {
-          if (validUser.role === "student") {
-            window.location.href = "/student/student-dashboard";
-          } else if (validUser.role === "instructor") {
-            window.location.href = "/instructor/instructor-dashboard";
-          } else if (validUser.role === "admin") {
-            window.location.href = "/admin/admin-dashboard";
-          } else {
-            window.location.href = "/dashboard";
-          }
+          window.location.href = "/dashboard";
         }, 1500);
       } else {
         toast.error("Login Failed ❌", {
@@ -77,7 +71,7 @@ const LoginForm = () => {
       <Toaster position="top-center" richColors />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 max-w-md mx-auto"
+        className="space-y-6 max-w-md"
       >
         {/* Email */}
         <FormField
@@ -110,7 +104,11 @@ const LoginForm = () => {
         />
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-[#4B0082] transition ease-in-out duration-300 hover:bg-[#4c0082c7]"
+          disabled={loading}
+        >
           {loading ? (
             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
           ) : (

@@ -127,7 +127,10 @@ const SignupForm = () => {
         />
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full bg-[#4B0082] transition ease-in-out duration-400 hover:bg-[#4c0082c7] cursor-pointer"
+        >
           Sign Up
         </Button>
       </form>
