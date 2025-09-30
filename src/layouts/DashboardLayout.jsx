@@ -1,15 +1,13 @@
+import AppSidebar from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import React from "react";
 
-const DashboardLayout = ({ children }) => {
+const DashboardLayout = ({ children, role }) => {
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <div className="flex-1">
-        {/* Navbar */}
-        {/* Role-specific-page */}
-        <main className="p-6">{children}</main>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar role={role} />
+      <SidebarInset>{children}</SidebarInset>
+    </SidebarProvider>
   );
 };
 
