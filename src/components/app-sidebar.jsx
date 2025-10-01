@@ -96,7 +96,7 @@ export default function AppSidebar() {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen">
+      <div className="flex h-screen w-full">
         <Sidebar collapsible="icon" className="bg-background border-r group ">
           {/* Header */}
           <SidebarHeader>
@@ -292,7 +292,7 @@ export default function AppSidebar() {
         </Sidebar>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-6 overflow-y-auto w-full ">
           <SidebarTrigger className="mb-4" />
           <Outlet />
         </main>

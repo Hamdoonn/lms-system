@@ -52,7 +52,7 @@ const LoginForm = () => {
 
         toast.success("Login Successful 🎉");
 
-        // ✅ Redirect user to their role's dashboard
+        // Redirect user to their role's dashboard
         setTimeout(() => {
           if (validUser.role === "student") {
             window.location.href = "/student";

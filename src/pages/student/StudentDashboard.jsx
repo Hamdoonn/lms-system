@@ -1,36 +1,70 @@
-import React from "react";
+import Header from "@/components/dashboard/Header";
+import { Award, BookOpen, Clock, Icon, TrendingUp } from "lucide-react";
 
 const StudentDashboard = () => {
+  const cardContent = [
+    {
+      icon: BookOpen,
+      title: "Enrolled Courses",
+      number: "2",
+      percentage: "+12%",
+      Trending: "Trending up this month",
+    },
+    {
+      icon: Award,
+      title: "Completed Courses",
+      number: "5",
+      percentage: "+12%",
+      Trending: "Trending up this month",
+    },
+    {
+      icon: TrendingUp,
+      title: "Average Progress",
+      number: "65%",
+      percentage: "+12%",
+      Trending: "Trending up this month",
+    },
+    {
+      icon: Clock,
+      title: "Hours Learned",
+      number: "30",
+      percentage: "+12%",
+      Trending: "Trending up this month",
+    },
+  ];
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Welcome back, Student 👋</h1>
-
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-4 bg-white shadow rounded-lg">
-          <h2 className="text-lg font-semibold">Courses</h2>
-          <p className="text-gray-600">Enrolled: 5</p>
-        </div>
-        <div className="p-4 bg-white shadow rounded-lg">
-          <h2 className="text-lg font-semibold">Assignments</h2>
-          <p className="text-gray-600">Pending: 2</p>
-        </div>
-        <div className="p-4 bg-white shadow rounded-lg">
-          <h2 className="text-lg font-semibold">Grades</h2>
-          <p className="text-gray-600">Average: A-</p>
-        </div>
+    <>
+      <Header />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-5">
+        {cardContent.map((card, idx) => {
+          const Icon = card.icon;
+          return (
+            <div
+              key={idx}
+              className="rounded-xl border bg-white p-4 min-h-[180px] flex flex-col justify-between gap-2"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm text-zinc-400 font-semibold">
+                  {card.title}
+                </h2>
+                <div className="flex justify-center items-center w-10 h-10 rounded-sm bg-[#4c008210]">
+                  {Icon && <Icon className="h-6 w-6 text-[#4B0082] " />}
+                </div>
+              </div>
+              <h1 className="text-4xl font-bold">{card.number}</h1>
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <span className="font-medium text-green-600">
+                  {card.percentage}
+                </span>
+                <span className="font-medium text-zinc-400">
+                  {card.Trending}
+                </span>
+              </div>
+            </div>
+          );
+        })}
       </div>
-
-      {/* Recent Activity */}
-      <div className="p-4 bg-white shadow rounded-lg">
-        <h2 className="text-lg font-semibold mb-2">Recent Activity</h2>
-        <ul className="list-disc pl-6 text-gray-700">
-          <li>Submitted Assignment 1 for Web Development</li>
-          <li>Joined new course: Data Structures</li>
-          <li>Scored 85% in Database Quiz</li>
-        </ul>
-      </div>
-    </div>
+    </>
   );
 };
 

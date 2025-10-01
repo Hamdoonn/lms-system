@@ -4,7 +4,6 @@ import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import StudentDashboard from "@/pages/student/StudentDashboard";
 import { Navigate } from "react-router-dom";
 import React from "react";
-import AppSidebar from "@/components/app-sidebar";
 
 const DashboardRouter = () => {
   const { role } = useRole();
