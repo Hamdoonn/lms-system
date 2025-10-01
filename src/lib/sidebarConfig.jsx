@@ -1,6 +1,6 @@
 export const sidebarConfig = {
   student: [
-    { label: "Dashboard", icon: "home", path: "/student/dashboard" },
+    { label: "Dashboard", icon: "home", path: "/student" },
     {
       label: "Courses",
       icon: "book",
@@ -24,11 +24,7 @@ export const sidebarConfig = {
   ],
 
   instructor: [
-    {
-      label: "Dashboard",
-      icon: "home",
-      path: "/instructor/dashboard",
-    },
+    { label: "Dashboard", icon: "home", path: "/instructor" },
     {
       label: "Courses",
       icon: "book",
@@ -56,7 +52,7 @@ export const sidebarConfig = {
   ],
 
   admin: [
-    { label: "Dashboard", icon: "home", path: "/admin/dashboard" },
+    { label: "Dashboard", icon: "home", path: "/admin" },
     { label: "Courses", icon: "book-open", path: "/admin/courses" },
     { label: "Reports", icon: "bar-chart", path: "/admin/reports" },
     { label: "Users", icon: "users", path: "/admin/users" },

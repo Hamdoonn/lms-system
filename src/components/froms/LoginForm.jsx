@@ -52,9 +52,15 @@ const LoginForm = () => {
 
         toast.success("Login Successful 🎉");
 
-        // redirect to dashboard (DashboardRouter decides view)
+        // ✅ Redirect user to their role's dashboard
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          if (validUser.role === "student") {
+            window.location.href = "/student";
+          } else if (validUser.role === "instructor") {
+            window.location.href = "/instructor";
+          } else if (validUser.role === "admin") {
+            window.location.href = "/admin";
+          }
         }, 1500);
       } else {
         toast.error("Login Failed ❌", {

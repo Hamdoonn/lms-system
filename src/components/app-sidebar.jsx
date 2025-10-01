@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import {
   ChevronRight,
@@ -49,6 +50,7 @@ import {
 } from "@/components/ui/tooltip";
 
 import { cn } from "@/lib/utils";
+import StudentDashboard from "@/pages/student/StudentDashboard";
 
 // Map of icons
 const iconMap = {
@@ -67,6 +69,7 @@ const iconMap = {
 };
 
 export default function AppSidebar() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(null);
   const [menuConfig, setMenuConfig] = useState([]);
@@ -83,6 +86,12 @@ export default function AppSidebar() {
 
   const toggleMenu = (title) => {
     setOpenMenus((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  //logout users
+  const handleLogOut = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate("/auth/Login", { replace: true });
   };
 
   return (
@@ -268,7 +277,10 @@ export default function AppSidebar() {
                       <button className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted">
                         <Bell size={16} /> Notifications
                       </button>
-                      <button className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted text-red-600">
+                      <button
+                        onClick={handleLogOut}
+                        className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted text-red-600"
+                      >
                         <LogOut size={16} /> Logout
                       </button>
                     </div>
@@ -280,9 +292,9 @@ export default function AppSidebar() {
         </Sidebar>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 overflow-y-auto">
           <SidebarTrigger className="mb-4" />
-          <div>Your main content here</div>
+          <Outlet />
         </main>
       </div>
     </SidebarProvider>
