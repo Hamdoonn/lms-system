@@ -4,7 +4,12 @@ import StatsCard from "@/components/dashboard/StatsCard";
 const StudentDashboard = () => {
   return (
     <>
-      <Header />
+      <Header
+        title="Student Dashboard"
+        subtitle="Continue your learning journey and achieve your goals."
+        actionLabel="Explore Courses"
+        actionPath="/student/courses/available"
+      />
       <StatsCard />
     </>
   );
