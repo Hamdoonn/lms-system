@@ -1,7 +1,14 @@
 import React from "react";
 
 const InstructorDashboard = () => {
-  return <div>InstructorDashboard</div>;
+
+  return(
+
+   <>
+    <h1>hello</h1>
+    </>
+  )
+    
 };
 
 export default InstructorDashboard;

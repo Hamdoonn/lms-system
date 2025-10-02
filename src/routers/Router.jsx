@@ -15,6 +15,16 @@ import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
 import Profile from "@/pages/student/Profile";
 import Settings from "@/pages/student/Settings";
+// Instructor Pages
+import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
+import AddCourses from "@/pages/instructore/courses/AddCourses";
+import ManageCourses from "@/pages/instructore/courses/ManageCourses";
+import InstructorAssignments from "@/pages/instructore/Assignments";
+import InstructorGrades from "@/pages/instructore/Grades";
+import Students from "@/pages/instructore/Students";
+import InstructorSettings from "@/pages/instructore/Setting";
+
+
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
@@ -30,6 +40,16 @@ const Router = () => {
 
         {/* dashboard router */}
         <Route path="/dashboard" element={<DashboardRouter />} />
+        {/* Instructor Dashboard Layout */}
+        <Route path="/instructor" element={<AppSidebar />}>
+          <Route index element={<InstructorDashboard />} />
+          <Route path="courses/add" element={<AddCourses />} />
+          <Route path="courses/manage" element={<ManageCourses />} />
+          <Route path="assignments" element={<InstructorAssignments />} />
+          <Route path="grades" element={<InstructorGrades />} />
+          <Route path="students" element={<Students />} />
+          <Route path="settings" element={<InstructorSettings />} />
+        </Route>
 
         {/* Student Dashboard Layout */}
         <Route path="/student" element={<AppSidebar />}>
