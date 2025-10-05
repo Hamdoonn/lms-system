@@ -50,7 +50,8 @@ const Header = () => {
 
   return (
     <div>
-      <div className="space-y-6 p-5 rounded-xl bg-[#4c0082]">
+  
+      <div className="space-y-6 p-5 rounded-xl bg-[#4c0082]  ">
         <div className="flex flex-col justify-center gap-2">
           <span className="text-white font-medium">Welcome back</span>
           <h1 className="text-5xl font-bold capitalize text-white">
