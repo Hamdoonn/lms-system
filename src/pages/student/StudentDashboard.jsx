@@ -8,7 +8,8 @@ const StudentDashboard = () => {
   return (
     <>
       <Header />
-      <StatsCard />
+      <StatsCard role="student" page="dashboard" />
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* continue learning block */}
         <div className="flex flex-col justify-start items-center min-h-[300px] border rounded-xl p-5 bg-white text-center">
