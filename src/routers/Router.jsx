@@ -18,6 +18,10 @@ import Settings from "@/pages/student/Settings";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import Courses from "@/pages/admin/Courses";
+import Reports from "@/pages/admin/Reports";
+import Users from "@/pages/admin/Users";
 
 const Router = () => {
   return (
@@ -46,7 +50,16 @@ const Router = () => {
           <Route path="settings" element={<Settings />} />
           {/* /student/settings */}
         </Route>
+        {/* Admin Dashboard Layout */}
+        <Route path="/admin" element={<AppSidebar/>}>
+         <Route index element={<AdminDashboard/>}/>
+         <Route path="/admin/courses" element={< Courses />}/>
+         <Route path="/admin/reports" element={< Reports/>}/>
+         <Route path="/admin/users" element={<Users/>}/>
+          <Route path="/admin/settings" element={<Settings/>}/>
+        </Route>
       </Routes>
+
     </BrowserRouter>
   );
 };
