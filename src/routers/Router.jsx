@@ -53,6 +53,7 @@ const Router = () => {
           <Route path="assignments" element={<Assignments />} />
           <Route path="grades" element={<Grades />} />
         </Route>
+
         {/* Admin Dashboard Layout */}
         <Route path="/admin" element={<AppSidebar />}>
           <Route index element={<AdminDashboard />} />
