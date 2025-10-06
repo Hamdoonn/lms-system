@@ -20,6 +20,12 @@ import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
+InstructorDashboard
+import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
+import AddCourses from "@/pages/instructore/courses/AddCourses";
+import ManageCourses from "@/pages/instructore/courses/ManageCourses";
+import Students from "@/pages/instructore/Students";
+
 
 const Router = () => {
   return (
@@ -44,6 +50,18 @@ const Router = () => {
         <Route path="/admin" element={<AppSidebar />}>
           <Route path="/admin/settings" element={<Settings />} />
         </Route>
+
+        {/* Instructor Dashboard Layout */}
+        <Route path="/instructor" element={<AppSidebar />}>
+          <Route index element={<InstructorDashboard />} />
+          <Route path="courses/add" element={<AddCourses />} />
+          <Route path="courses/manage" element={<ManageCourses />} />
+          <Route path="assignments" element={<Assignments />} />
+          <Route path="grades" element={<Grades />} />
+          <Route path="students" element={<Students />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+
 
         {/* Student Dashboard Layout */}
         <Route path="/student" element={<AppSidebar />}>
