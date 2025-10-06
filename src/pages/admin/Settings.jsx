@@ -1,9 +1,5 @@
 import React from 'react'
 
-const Settings = () => {
-  return (
-    <div>Settings</div>
-  )
+export default function Settings() {
+  return <div>Settings page works!</div>;
 }
-
-export default Settings

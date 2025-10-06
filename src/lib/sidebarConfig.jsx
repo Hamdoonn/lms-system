@@ -53,7 +53,7 @@ export const sidebarConfig = {
 
   admin: [
     { label: "Dashboard", icon: "home", path: "/admin" },
-    { label: "Courses", icon: "book-open", path: "/admin/courses" },
+    
     { label: "Reports", icon: "bar-chart", path: "/admin/reports" },
     { label: "Users", icon: "users", path: "/admin/users" },
     { label: "Settings", icon: "settings", path: "/admin/settings" },
