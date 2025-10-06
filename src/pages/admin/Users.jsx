@@ -10,7 +10,6 @@ import {
   Edit,
   Slash,
 } from "lucide-react";
-import EnrolledCourses from "../student/courses/EnrolledCourses";
 
 const Users = () => {
   const allUsers = [

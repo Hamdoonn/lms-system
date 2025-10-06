@@ -237,21 +237,29 @@ const getStatsData = (role, page) => {
           icon: Users,
           title: "Total Users",
           number: "16",
+          percentage: "+1.1%",
+          Trending: "This month",
         },
         {
           icon: Activity,
           title: "Active Users",
           number: "14",
+          percentage: "+1.1%",
+          Trending: "This month",
         },
         {
           icon: HatGlasses,
           title: "Instructors",
           number: "7",
+          percentage: "+1.1%",
+          Trending: "This month",
         },
         {
           icon: Ban,
           title: "Suspended Users",
           number: "2",
+          percentage: "+1.1%",
+          Trending: "This month",
         },
       ];
     }
