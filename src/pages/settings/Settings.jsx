@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -76,7 +75,7 @@ const Settings = () => {
               <select
                 value={profileVisibility}
                 onChange={(e) => setProfileVisibility(e.target.value)}
-                className="mt-2 w-60 p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#7f2f82] focus:outline-none"
+                className="mt-2 w-60 p-2 border  rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#7f2f82] focus:outline-none"
               >
                 <option>Public</option>
                 <option>Private</option>
