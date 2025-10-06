@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 const Settings = () => {
   const [activeTab, setActiveTab] = useState("Privacy");
@@ -27,7 +28,7 @@ const Settings = () => {
   };
 
   const handleSave = () => {
-    alert("Settings saved successfully!");
+    toast.success("Settings saved successfully");
   };
 
   const tabs = ["Notifications", "Privacy", "Account", "Data"];

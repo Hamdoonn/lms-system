@@ -34,14 +34,10 @@ const Router = () => {
         <Route path="/student" element={<AppSidebar />}>
           <Route index element={<StudentDashboard />} />
           <Route path="courses/available" element={<AvailaibleCourses />} />
-          {/* /student/courses/available */}
           <Route path="courses/enrolled" element={<EnrolledCourses />} />
-          {/* /student/courses/enrolled */}
           <Route path="assignments" element={<Assignments />} />
-          {/* /student/assignments */}
           <Route path="grades" element={<Grades />} />
           <Route path="settings" element={<Settings />} />
-          {/* /student/settings */}
         </Route>
       </Routes>
     </BrowserRouter>
