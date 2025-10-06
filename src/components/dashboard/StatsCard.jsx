@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   FileCheck2,
   CircleCheckBig,
+  ChartColumn,
 } from "lucide-react";
 
 // role base card data
@@ -101,6 +102,13 @@ const getStatsData = (role, page) => {
           number: "1",
           percentage: "-4%",
           Trending: "Needs improvement",
+        },
+        {
+          icon: ChartColumn,
+          title: "Overall Average",
+          number: "85.4%",
+          percentage: "+1.1%",
+          Trending: "Improved Result",
         },
       ];
     }

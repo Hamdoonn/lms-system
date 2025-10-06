@@ -13,7 +13,6 @@ import AvailaibleCourses from "@/pages/student/courses/AvailaibleCourses";
 import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
 import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
-import Profile from "@/pages/student/Profile";
 import Settings from "@/pages/student/Settings";
 
 //Dashboard Router
@@ -41,8 +40,6 @@ const Router = () => {
           <Route path="assignments" element={<Assignments />} />
           {/* /student/assignments */}
           <Route path="grades" element={<Grades />} />
-          <Route path="profile" element={<Profile />} />
-          {/* /student/profile */}
           <Route path="settings" element={<Settings />} />
           {/* /student/settings */}
         </Route>
