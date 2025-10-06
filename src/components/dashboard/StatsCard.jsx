@@ -10,6 +10,12 @@ import {
   CheckCircle2,
   FileCheck2,
   CircleCheckBig,
+  TicketCheck,
+  Check,
+  Activity,
+  HatGlasses,
+  Cross,
+  Ban,
 } from "lucide-react";
 
 // role base card data
@@ -202,28 +208,63 @@ const getStatsData = (role, page) => {
           Trending: "This month",
         },
         {
-          icon: Users,
+          icon: BookOpen,
           title: "Courses Published",
           number: "154",
           percentage: "+3.2%",
           Trending: "This month",
         },
         {
-          icon: Users,
-          title: "Average COmpletion",
+          icon: Check,
+          title: "Average Completion",
           number: "79%",
           percentage: "+1.1%",
           Trending: "This month",
         },
       ];
     }
+    if (page === "users") {
+      return [
+        {
+          icon: Users,
+          title: "Total Users",
+          number: "16",
+          
+        },
+        {
+          icon: Activity,
+          title: "Active Users",
+          number: "14",
+          
+        },
+        {
+          icon: HatGlasses,
+          title: "Instructors",
+          number: "7",
+          
+        },
+         {
+          icon: Ban,
+          title: "Suspended Users",
+          number: "2",
+          
+        },
+      ];
+    }
+
   }
 
   return [];
 };
 
-const StatsCard = ({ role, page }) => {
-  const cardContent = getStatsData(role, page);
+const StatsCard = ({ role, page, }) => {
+  let cardContent = getStatsData(role, page);
+
+
+
+  
+    
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-5">

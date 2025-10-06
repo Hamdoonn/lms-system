@@ -14,14 +14,13 @@ import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
 import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
 import Profile from "@/pages/student/Profile";
-import Settings from "@/pages/student/Settings";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
-import Courses from "@/pages/admin/Courses";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
+import Settings from "@/pages/admin/Settings";
 
 const Router = () => {
   return (
@@ -53,7 +52,6 @@ const Router = () => {
         {/* Admin Dashboard Layout */}
         <Route path="/admin" element={<AppSidebar/>}>
          <Route index element={<AdminDashboard/>}/>
-         <Route path="/admin/courses" element={< Courses />}/>
          <Route path="/admin/reports" element={< Reports/>}/>
          <Route path="/admin/users" element={<Users/>}/>
           <Route path="/admin/settings" element={<Settings/>}/>

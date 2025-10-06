@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
       {/* Stats Section */}
       <div>
-        <StatsCard />
+        <StatsCard role="admin" page="dashboard" />
       </div>
 
       {/* Grid Section */}

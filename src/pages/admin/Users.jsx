@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import Header from "@/components/dashboard/Header";
+import StatsCard from "@/components/dashboard/StatsCard";
 import {
   Users as UsersIcon,
   UserPlus,
@@ -10,6 +10,7 @@ import {
   Edit,
   Slash,
 } from "lucide-react";
+import EnrolledCourses from "../student/courses/EnrolledCourses";
 
 const Users = () => {
   const allUsers = [
@@ -56,16 +57,27 @@ const Users = () => {
   const handlePrev = () => setCurrentPage((p) => Math.max(p - 1, 1));
   const handleNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
 
+  //--- Dynamic Data Updation Logic ---
+const totalStudents = allUsers.filter((u) => u.role.toLowerCase() === "student").length;
+const totalInstructors = allUsers.filter((u) => u.role.toLowerCase() === "instructor").length;
+const totalUsers = allUsers.length;
+
+const averageCompletion = Math.round((totalStudents / totalUsers) * 100);
+
+
   return (
     <div>
 
 
       {/* Page Header */}
       <div className="flex items-center justify-between mt-6 mb-8">
-        <h2 className="text-[28px] font-semibold flex items-center gap-2 text-[#4C0082]">
-          <UsersIcon className="h-6 w-6 text-[#4C0082] hover:stroke-2" />
+        <div className="flex flex-col gap-2">
+
+        <h2 className="text-[28px] font-semibold flex items-center gap-2">
           User Management
         </h2>
+        <p>Manage users, roles, and account activity efficiently.</p>
+        </div>
 
         <button className="flex items-center gap-2 bg-[#4C0082] text-white px-4 py-2 rounded-lg hover:bg-[#4C0082]/90 transition hover:shadow-lg hover:scale[1.02] hover:-translate-y-0.5 hover:shadow-purple-500/50 hover:duration-300 hover:ease-in-out  hover: tracking-normal hover:translation-duration-300 hover:translation-ease-in-out ">
           <UserPlus className="h-4 w-4" />
@@ -74,31 +86,10 @@ const Users = () => {
       </div>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="p-4 rounded-lg bg-muted/50 flex flex-col justify-between">
-          <p className="text-[14px] text-muted-foreground">Total Users</p>
-          <p className="text-[22px] font-bold text-primary">{allUsers.length}</p>
-        </div>
-        <div className="p-4 rounded-lg bg-muted/50 flex flex-col justify-between">
-          <p className="text-[14px] text-muted-foreground">Active Users</p>
-          <p className="text-[22px] font-bold text-green-600">
-            {allUsers.filter((u) => u.status === "Active").length}
-          </p>
-        </div>
-        <div className="p-4 rounded-lg bg-muted/50 flex flex-col justify-between">
-          <p className="text-[14px] text-muted-foreground">Instructors</p>
-          <p className="text-[22px] font-bold text-blue-600">
-            {allUsers.filter((u) => u.role === "Instructor").length}
-          </p>
-        </div>
-        <div className="p-4 rounded-lg bg-muted/50 flex flex-col justify-between">
-          <p className="text-[14px] text-muted-foreground">Suspended</p>
-          <p className="text-[22px] font-bold text-red-500">
-            {allUsers.filter((u) => u.status === "Suspended").length}
-          </p>
-        </div>
-      </div>
-
+      <StatsCard role="admin"page="users"
+      
+      
+      />
       {/* Search & Filter Bar */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
         <div className="relative w-full sm:w-1/2">
