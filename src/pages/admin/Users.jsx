@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from "react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import {
-  Users as UsersIcon,
   UserPlus,
   Search,
   Filter,
@@ -11,142 +10,50 @@ import {
   Slash,
 } from "lucide-react";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+
 const Users = () => {
-  const allUsers = [
-    {
-      id: 1,
-      name: "Aslam Sheikh",
-      email: "aslamsheikh@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Jan 15, 2024",
-    },
-    {
-      id: 2,
-      name: "Sarah Amjad",
-      email: "sarahamjad@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Feb 3, 2024",
-    },
-    {
-      id: 3,
-      name: "Ali Khan",
-      email: "alikhan@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Mar 28, 2024",
-    },
-    {
-      id: 4,
-      name: "Nitasha kamran",
-      email: "nitashakamran@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "May 2, 2024",
-    },
-    {
-      id: 5,
-      name: "safwan shahid",
-      email: "safwanshahid@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Jul 10, 2024",
-    },
-    {
-      id: 6,
-      name: "Hamdoon shahid",
-      email: "hamdoonshahid@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Aug 18, 2024",
-    },
-    {
-      id: 7,
-      name: "Raffae majeed",
-      email: "raffaemajeed@example.com",
-      role: "student",
-      status: "Suspended",
-      joined: "Sep 4, 2024",
-    },
-    {
-      id: 8,
-      name: "Umair Tahir",
-      email: "umairtahir@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Sep 15, 2024",
-    },
-    {
-      id: 10,
-      name: "Zain bashir",
-      email: "zainbashir@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Sep 20, 2024",
-    },
-    {
-      id: 11,
-      name: "Ilyas khan",
-      email: "ilyaskhan@example.com",
-      role: "Student",
-      status: "Suspended",
-      joined: "Sep 22, 2024",
-    },
-    {
-      id: 12,
-      name: "Daniyal Shabir",
-      email: "daniyalshabir@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Sep 25, 2024",
-    },
-    {
-      id: 13,
-      name: "hamza abbasi",
-      email: "hamzaabbasi@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Sep 22, 2024",
-    },
-    {
-      id: 14,
-      name: "Rayan kamal",
-      email: "rayankamal@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "Sep 20, 2024",
-    },
-    {
-      id: 15,
-      name: "Asadullah",
-      email: "asadullah@example.com",
-      role: "Student",
-      status: "Active",
-      joined: "oct 4, 2024",
-    },
-    {
-      id: 16,
-      name: "Hanan babar",
-      email: "hananbabar@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Jan 2, 2023",
-    },
-    {
-      id: 17,
-      name: "Bilal anwar",
-      email: "bilalanwar@example.com",
-      role: "Instructor",
-      status: "Active",
-      joined: "Feb 6, 2022",
-    },
+  const initialUsers = [
+    { id: 1, name: "Aslam Sheikh", email: "aslamsheikh@example.com", role: "Instructor", status: "Active", joined: "Jan 15, 2024" },
+    { id: 2, name: "Sarah Amjad", email: "sarahamjad@example.com", role: "Instructor", status: "Active", joined: "Feb 3, 2024" },
+    { id: 3, name: "Ali Khan", email: "alikhan@example.com", role: "Instructor", status: "Active", joined: "Mar 28, 2024" },
+    { id: 4, name: "Nitasha Kamran", email: "nitashakamran@example.com", role: "Instructor", status: "Active", joined: "May 2, 2024" },
+    { id: 5, name: "Safwan Shahid", email: "safwanshahid@example.com", role: "Student", status: "Active", joined: "Jul 10, 2024" },
+    { id: 6, name: "Hamdoon Shahid", email: "hamdoonshahid@example.com", role: "Student", status: "Active", joined: "Aug 18, 2024" },
+    { id: 7, name: "Raffae Majeed", email: "raffaemajeed@example.com", role: "Student", status: "Suspended", joined: "Sep 4, 2024" },
+    { id: 8, name: "Umair Tahir", email: "umairtahir@example.com", role: "Student", status: "Active", joined: "Sep 15, 2024" },
+    { id: 10, name: "Zain Bashir", email: "zainbashir@example.com", role: "Student", status: "Active", joined: "Sep 20, 2024" },
+    { id: 11, name: "Ilyas Khan", email: "ilyaskhan@example.com", role: "Student", status: "Suspended", joined: "Sep 22, 2024" },
+    { id: 12, name: "Daniyal Shabir", email: "daniyalshabir@example.com", role: "Student", status: "Active", joined: "Sep 25, 2024" },
+    { id: 13, name: "Hamza Abbasi", email: "hamzaabbasi@example.com", role: "Instructor", status: "Active", joined: "Sep 22, 2024" },
+    { id: 14, name: "Rayan Kamal", email: "rayankamal@example.com", role: "Student", status: "Active", joined: "Sep 20, 2024" },
+    { id: 15, name: "Asadullah", email: "asadullah@example.com", role: "Student", status: "Active", joined: "Oct 4, 2024" },
+    { id: 16, name: "Hanan Babar", email: "hananbabar@example.com", role: "Instructor", status: "Active", joined: "Jan 2, 2023" },
+    { id: 17, name: "Bilal Anwar", email: "bilalanwar@example.com", role: "Instructor", status: "Active", joined: "Feb 6, 2022" },
   ];
 
-  // --- State management ---
+  const [allUsers, setAllUsers] = useState(initialUsers);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterRole, setFilterRole] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    role: "Student",
+    status: "Active",
+  });
+
   const usersPerPage = 5;
 
   // --- Filtering logic ---
@@ -160,31 +67,29 @@ const Users = () => {
     });
   }, [searchQuery, filterRole, allUsers]);
 
-  // --- Pagination logic ---
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
   const startIndex = (currentPage - 1) * usersPerPage;
-  const paginatedUsers = filteredUsers.slice(
-    startIndex,
-    startIndex + usersPerPage
-  );
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage);
 
   const handlePrev = () => setCurrentPage((p) => Math.max(p - 1, 1));
   const handleNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
 
-  //--- Dynamic Data Updation Logic ---
-  const totalStudents = allUsers.filter(
-    (u) => u.role.toLowerCase() === "student"
-  ).length;
-  const totalInstructors = allUsers.filter(
-    (u) => u.role.toLowerCase() === "instructor"
-  ).length;
-  const totalUsers = allUsers.length;
-
-  const averageCompletion = Math.round((totalStudents / totalUsers) * 100);
+  const handleAddUser = () => {
+    if (!newUser.name || !newUser.email) return;
+    const id = allUsers.length + 1;
+    const today = new Date().toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    setAllUsers([...allUsers, { id, joined: today, ...newUser }]);
+    setNewUser({ name: "", email: "", role: "Student", status: "Active" });
+    setIsDialogOpen(false);
+  };
 
   return (
     <div>
-      {/* Page Header */}
+      {/* Header */}
       <div className="flex items-center justify-between mt-6 mb-8">
         <div className="flex flex-col gap-2">
           <h2 className="text-[28px] font-semibold flex items-center gap-2">
@@ -193,15 +98,76 @@ const Users = () => {
           <p>Manage users, roles, and account activity efficiently.</p>
         </div>
 
-        <button className="flex items-center gap-2 bg-[#4C0082] text-white px-4 py-2 rounded-lg hover:bg-[#4C0082]/90 transition hover:shadow-lg hover:scale[1.02] hover:-translate-y-0.5 hover:shadow-purple-500/50 hover:duration-300 hover:ease-in-out  hover: tracking-normal hover:translation-duration-300 hover:translation-ease-in-out ">
-          <UserPlus className="h-4 w-4" />
-          Add User
-        </button>
+        {/* Add User Button with Dialog */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <button className="flex items-center gap-2 bg-[#4C0082] text-white px-4 py-2 rounded-lg hover:bg-[#4C0082]/90 transition hover:shadow-lg hover:-translate-y-0.5 hover:shadow-purple-500/50">
+              <UserPlus className="h-4 w-4" />
+              Add User
+            </button>
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Add New User</DialogTitle>
+            </DialogHeader>
+
+            <div className="space-y-3 py-3">
+              <div>
+                <Label>Name</Label>
+                <Input
+                  value={newUser.name}
+                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                  placeholder="Enter full name"
+                />
+              </div>
+              <div>
+                <Label>Email</Label>
+                <Input
+                  value={newUser.email}
+                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                  placeholder="Enter email"
+                />
+              </div>
+              <div>
+                <Label>Role</Label>
+                <select
+                  value={newUser.role}
+                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+                  className="w-full border border-border rounded-lg px-3 py-2 bg-card text-sm"
+                >
+                  <option value="Student">Student</option>
+                  <option value="Instructor">Instructor</option>
+                  <option value="Admin">Admin</option>
+                </select>
+              </div>
+              <div>
+                <Label>Status</Label>
+                <select
+                  value={newUser.status}
+                  onChange={(e) => setNewUser({ ...newUser, status: e.target.value })}
+                  className="w-full border border-border rounded-lg px-3 py-2 bg-card text-sm"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Suspended">Suspended</option>
+                </select>
+              </div>
+            </div>
+
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsDialogOpen(false)} className="text-[#4C0082] border-[#4C0082] ">
+                Cancel
+              </Button>
+              <Button onClick={handleAddUser} className="bg-[#4C0082] ">Add</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {/* Overview Cards */}
+      {/* Stats */}
       <StatsCard role="admin" page="users" />
-      {/* Search & Filter Bar */}
+
+      {/* Search & Filter */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
         <div className="relative w-full sm:w-1/2">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -260,9 +226,7 @@ const Users = () => {
                   className="border-b last:border-none hover:bg-muted/30 transition"
                 >
                   <td className="px-6 py-3 font-medium">{user.name}</td>
-                  <td className="px-6 py-3 text-muted-foreground">
-                    {user.email}
-                  </td>
+                  <td className="px-6 py-3 text-muted-foreground">{user.email}</td>
                   <td className="px-6 py-3">{user.role}</td>
                   <td className="px-6 py-3">
                     <span
@@ -275,9 +239,7 @@ const Users = () => {
                       {user.status}
                     </span>
                   </td>
-                  <td className="px-6 py-3 text-muted-foreground">
-                    {user.joined}
-                  </td>
+                  <td className="px-6 py-3 text-muted-foreground">{user.joined}</td>
                   <td className="px-6 py-3 text-right">
                     <div className="flex items-center justify-end gap-3 text-muted-foreground">
                       <button className="hover:text-primary">
@@ -298,10 +260,7 @@ const Users = () => {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan="6"
-                  className="px-6 py-6 text-center text-muted-foreground"
-                >
+                <td colSpan="6" className="px-6 py-6 text-center text-muted-foreground">
                   No users found
                 </td>
               </tr>
@@ -321,10 +280,8 @@ const Users = () => {
           <button
             onClick={handlePrev}
             disabled={currentPage === 1}
-            className={`bg-[#4C0082] text-white  hover:bg-[#4C0082]/90 transition hover:shadow-lg hover:scale[1.02] hover:-translate-y-0.5 hover:shadow-purple-500/50 hover:duration-300 hover:ease-in-out  hover: tracking-normal hover:translation-duration-300 hover:translation-ease-in-out  px-3 py-1 rounded-lg border ${
-              currentPage === 1
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-[#4C0082]/30"
+            className={`bg-[#4C0082] text-white px-3 py-1 rounded-lg transition hover:bg-[#4C0082]/90 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-purple-500/50 ${
+              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             Prev
@@ -332,10 +289,8 @@ const Users = () => {
           <button
             onClick={handleNext}
             disabled={currentPage === totalPages}
-            className={`bg-[#4C0082] text-white  hover:bg-[#4C0082]/90 transition hover:shadow-lg hover:scale[1.02] hover:-translate-y-0.5 hover:shadow-purple-500/50 hover:duration-300 hover:ease-in-out  hover: tracking-normal hover:translation-duration-300 hover:translation-ease-in-out    px-3 py-1 rounded-lg border ${
-              currentPage === totalPages
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-[#4C0082]/30"
+            className={`bg-[#4C0082] text-white px-3 py-1 rounded-lg transition hover:bg-[#4C0082]/90 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-purple-500/50 ${
+              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
             Next
