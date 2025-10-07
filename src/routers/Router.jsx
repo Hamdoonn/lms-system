@@ -25,7 +25,7 @@ import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
 import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
-import instructorAssignments from "@/pages/instructore/Assignments";
+import InstructorAssignments from "@/pages/instructore/Assignments";
 import InstructorGrades from "@/pages/instructore/Grades";
 
 
@@ -58,7 +58,7 @@ const Router = () => {
           <Route index element={<InstructorDashboard />} />
           <Route path="courses/add" element={<AddCourses />} />
           <Route path="courses/manage" element={<ManageCourses />} />
-          <Route path="/instructor/assignments" element={<instructorAssignments />} />
+          <Route path="/instructor/assignments" element={<InstructorAssignments />} />
           <Route path="/instructor/grades" element={<InstructorGrades />} />
           <Route path="/instructor/students" element={<Students />} />
           <Route path="/instructor/settings" element={<Settings />} />
