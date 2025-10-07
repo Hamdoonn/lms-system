@@ -65,7 +65,7 @@ const Assignments = () => {
                   onClick={() => moveAssignment(a.id, "pending", "inProgress")}
                   className="self-start px-3 cursor-pointer  py-1 text-sm rounded-md bg-[#4b0082] text-white hover:bg-[#4b0082] transition"
                 >
-                  Start
+                  View Assignment
                 </Button>
               </div>
             ))

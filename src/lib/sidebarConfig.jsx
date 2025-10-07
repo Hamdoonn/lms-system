@@ -19,6 +19,7 @@ export const sidebarConfig = {
     },
     { label: "Assignments", icon: "file-text", path: "/student/assignments" },
     { label: "Grades", icon: "check-circle", path: "/student/grades" },
+    { label: "Attendance", icon: "user-check", path: "/student/attendance" },
     { label: "Settings", icon: "settings", path: "/student/settings" },
   ],
 
@@ -52,7 +53,7 @@ export const sidebarConfig = {
 
   admin: [
     { label: "Dashboard", icon: "home", path: "/admin" },
-    
+
     { label: "Reports", icon: "bar-chart", path: "/admin/reports" },
     { label: "Users", icon: "users", path: "/admin/users" },
     { label: "Settings", icon: "settings", path: "/admin/settings" },

@@ -23,7 +23,7 @@ const EnrolledCourses = () => {
               <img
                 src={course.image}
                 alt={course.title}
-                className="w-full h-40 object-cover rounded-lg mb-4"
+                className="w-full h-40 object-cover  mb-4"
               />
               <h3 className="text-lg font-semibold">{course.title}</h3>
               <p className="text-sm text-gray-600 mb-2">
