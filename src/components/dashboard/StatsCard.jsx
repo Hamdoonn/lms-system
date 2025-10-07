@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   FileCheck2,
   CircleCheckBig,
+  ChartColumn,
   TicketCheck,
   Check,
   Activity,
@@ -107,6 +108,13 @@ const getStatsData = (role, page) => {
           number: "1",
           percentage: "-4%",
           Trending: "Needs improvement",
+        },
+        {
+          icon: ChartColumn,
+          title: "Overall Average",
+          number: "85.4%",
+          percentage: "+1.1%",
+          Trending: "Improved Result",
         },
       ];
     }
@@ -229,42 +237,39 @@ const getStatsData = (role, page) => {
           icon: Users,
           title: "Total Users",
           number: "16",
-          
+          percentage: "+1.1%",
+          Trending: "This month",
         },
         {
           icon: Activity,
           title: "Active Users",
           number: "14",
-          
+          percentage: "+1.1%",
+          Trending: "This month",
         },
         {
           icon: HatGlasses,
           title: "Instructors",
           number: "7",
-          
+          percentage: "+1.1%",
+          Trending: "This month",
         },
-         {
+        {
           icon: Ban,
           title: "Suspended Users",
           number: "2",
-          
+          percentage: "+1.1%",
+          Trending: "This month",
         },
       ];
     }
-
   }
 
   return [];
 };
 
-const StatsCard = ({ role, page, }) => {
+const StatsCard = ({ role, page }) => {
   let cardContent = getStatsData(role, page);
-
-
-
-  
-    
-
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-5">

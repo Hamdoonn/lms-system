@@ -19,7 +19,6 @@ export const sidebarConfig = {
     },
     { label: "Assignments", icon: "file-text", path: "/student/assignments" },
     { label: "Grades", icon: "check-circle", path: "/student/grades" },
-    { label: "Profile", icon: "user", path: "/student/profile" },
     { label: "Settings", icon: "settings", path: "/student/settings" },
   ],
 

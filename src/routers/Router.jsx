@@ -1,6 +1,7 @@
 import LoginPage from "@/pages/auth/LoginPage";
 import SignupPage from "@/pages/auth/SignupPage";
 import Onboarding from "@/pages/Onboarding";
+import Settings from "@/pages/settings/Settings";
 
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -13,14 +14,12 @@ import AvailaibleCourses from "@/pages/student/courses/AvailaibleCourses";
 import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
 import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
-import Profile from "@/pages/student/Profile";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
-import Settings from "@/pages/admin/Settings";
 
 const Router = () => {
   return (
@@ -34,30 +33,34 @@ const Router = () => {
         {/* dashboard router */}
         <Route path="/dashboard" element={<DashboardRouter />} />
 
+        {/* Shared Settings for all roles */}
+        <Route path="/student" element={<AppSidebar />}>
+          <Route path="/student/settings" element={<Settings />} />
+        </Route>
+
+        <Route path="/instructore" element={<AppSidebar />}>
+          <Route path="/instructore/settings" element={<Settings />} />
+        </Route>
+        <Route path="/admin" element={<AppSidebar />}>
+          <Route path="/admin/settings" element={<Settings />} />
+        </Route>
+
         {/* Student Dashboard Layout */}
         <Route path="/student" element={<AppSidebar />}>
           <Route index element={<StudentDashboard />} />
           <Route path="courses/available" element={<AvailaibleCourses />} />
-          {/* /student/courses/available */}
           <Route path="courses/enrolled" element={<EnrolledCourses />} />
-          {/* /student/courses/enrolled */}
           <Route path="assignments" element={<Assignments />} />
-          {/* /student/assignments */}
           <Route path="grades" element={<Grades />} />
-          <Route path="profile" element={<Profile />} />
-          {/* /student/profile */}
-          <Route path="settings" element={<Settings />} />
-          {/* /student/settings */}
         </Route>
+
         {/* Admin Dashboard Layout */}
-        <Route path="/admin" element={<AppSidebar/>}>
-         <Route index element={<AdminDashboard/>}/>
-         <Route path="/admin/reports" element={< Reports/>}/>
-         <Route path="/admin/users" element={<Users/>}/>
-          <Route path="/admin/settings" element={<Settings/>}/>
+        <Route path="/admin" element={<AppSidebar />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="/admin/reports" element={<Reports />} />
+          <Route path="/admin/users" element={<Users />} />
         </Route>
       </Routes>
-
     </BrowserRouter>
   );
 };
