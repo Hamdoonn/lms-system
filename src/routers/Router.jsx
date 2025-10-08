@@ -23,6 +23,7 @@ import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
 // InstructorDashboard
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
+// import Courses from "@/pages/instructore/Courses";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
 import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
@@ -83,7 +84,7 @@ const Router = () => {
           <Route index element={<AdminDashboard />} />
           <Route path="/admin/reports" element={<Reports />} />
           <Route path="/admin/users" element={<Users />} />
-          <Route path="/admin/courses" element={<Courses />}/>
+          {/* <Route path="/admin/courses" element={<Courses />}/> */}
         </Route>
       </Routes>
     </BrowserRouter>
