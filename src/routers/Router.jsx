@@ -21,6 +21,7 @@ import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
+import Courses from "@/pages/admin/Courses";
 
 const Router = () => {
   return (
@@ -61,6 +62,7 @@ const Router = () => {
           <Route index element={<AdminDashboard />} />
           <Route path="/admin/reports" element={<Reports />} />
           <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/courses" element={<Courses />}/>
         </Route>
       </Routes>
     </BrowserRouter>
