@@ -18,9 +18,11 @@ import StudentAttendance from "@/pages/student/Attendance";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
+//admin routes
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
+import Courses from "@/pages/admin/Courses";
 // InstructorDashboard
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
@@ -28,7 +30,6 @@ import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
 import InstructorAssignments from "@/pages/instructore/Assignments";
 import InstructorGrades from "@/pages/instructore/Grades";
-
 
 const Router = () => {
   return (
@@ -59,12 +60,14 @@ const Router = () => {
           <Route index element={<InstructorDashboard />} />
           <Route path="courses/add" element={<AddCourses />} />
           <Route path="courses/manage" element={<ManageCourses />} />
-          <Route path="/instructor/assignments" element={<InstructorAssignments />} />
+          <Route
+            path="/instructor/assignments"
+            element={<InstructorAssignments />}
+          />
           <Route path="/instructor/grades" element={<InstructorGrades />} />
           <Route path="/instructor/students" element={<Students />} />
           <Route path="/instructor/settings" element={<Settings />} />
         </Route>
-
 
         {/* Student Dashboard Layout */}
         <Route path="/student" element={<AppSidebar />}>
@@ -81,7 +84,7 @@ const Router = () => {
           <Route index element={<AdminDashboard />} />
           <Route path="/admin/reports" element={<Reports />} />
           <Route path="/admin/users" element={<Users />} />
-          <Route path="/admin/courses" element={<Courses />}/>
+          <Route path="/admin/courses" element={<Courses />} />
         </Route>
       </Routes>
     </BrowserRouter>
