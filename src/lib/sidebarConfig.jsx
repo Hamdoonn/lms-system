@@ -54,7 +54,9 @@ export const sidebarConfig = {
     { label: "Dashboard", icon: "home", path: "/admin" },
     
     { label: "Reports", icon: "bar-chart", path: "/admin/reports" },
+    { label: "Courses", icon: "book", path: "/admin/courses" },
     { label: "Users", icon: "users", path: "/admin/users" },
     { label: "Settings", icon: "settings", path: "/admin/settings" },
+    
   ],
 };
