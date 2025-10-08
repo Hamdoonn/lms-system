@@ -28,6 +28,7 @@ import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
 import InstructorAssignments from "@/pages/instructore/Assignments";
 import InstructorGrades from "@/pages/instructore/Grades";
+import InstructorAttendance from"@/pages/instructore/InstructorAttendence";
 
 
 const Router = () => {
@@ -62,6 +63,7 @@ const Router = () => {
           <Route path="/instructor/assignments" element={<InstructorAssignments />} />
           <Route path="/instructor/grades" element={<InstructorGrades />} />
           <Route path="/instructor/students" element={<Students />} />
+         <Route path="/instructor/attendance" element={<InstructorAttendance />} />
           <Route path="/instructor/settings" element={<Settings />} />
         </Route>
 
