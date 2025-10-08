@@ -27,7 +27,8 @@ const Header = () => {
         return {
           subtitle: "Create, manage, and inspire students with your courses.",
           buttonText: "Manage Courses",
-          buttonLink: "/instructor/courses",
+        buttonLink: "/instructor/courses/manage",
+
         };
       case "admin":
         return {
