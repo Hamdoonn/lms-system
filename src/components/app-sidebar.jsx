@@ -17,6 +17,7 @@ import {
   BarChart,
   LogOut,
   Bell,
+  UserCheck,
 } from "lucide-react";
 import { sidebarConfig } from "@/lib/sidebarConfig";
 
@@ -50,7 +51,6 @@ import {
 } from "@/components/ui/tooltip";
 
 import { cn } from "@/lib/utils";
-import StudentDashboard from "@/pages/student/StudentDashboard";
 
 // Map of icons
 const iconMap = {
@@ -61,6 +61,7 @@ const iconMap = {
   "check-circle": CheckCircle,
   user: User,
   settings: Settings,
+  "user-check": UserCheck,
   library: Library,
   "plus-circle": PlusCircle,
   list: List,
@@ -137,7 +138,7 @@ export default function AppSidebar() {
                               className="flex items-center justify-between"
                             >
                               <div className="flex items-center gap-2">
-                                {Icon && <Icon className="h-4 w-4" />}
+                                {Icon && <Icon className="h-4 w-4 " />}
                                 <span className="group-data-[state=collapsed]:hidden">
                                   {item.label}
                                 </span>
@@ -206,7 +207,7 @@ export default function AppSidebar() {
                             asChild
                             className={cn(
                               "flex items-center gap-2",
-                              active && "bg-accent text-accent-foreground"
+                              active && "bg-[#4c008210] text-[#4b0082]"
                             )}
                           >
                             <Link to={item.path}>

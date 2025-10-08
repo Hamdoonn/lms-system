@@ -55,24 +55,6 @@ const Onboarding = () => {
       ],
       roleKey: "instructor",
     },
-    {
-      title: "Admin",
-      icon: (
-        <IconUserShield
-          stroke={2}
-          width={30}
-          height={30}
-          className="text-[#4B0082]"
-        />
-      ),
-      features: [
-        "Manage users and approve/edit courses",
-        "Generate system-wide reports",
-        "Configure platform settings",
-        "Ensure smooth learning operations",
-      ],
-      roleKey: "admin",
-    },
   ];
 
   return (
@@ -90,7 +72,7 @@ const Onboarding = () => {
         </div>
 
         {/* Cards */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-3 items-stretch py-12 gap-6">
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 items-stretch py-12 gap-6">
           {roles.map(({ title, icon, features, roleKey }) => (
             <div
               key={title}

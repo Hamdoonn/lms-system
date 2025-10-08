@@ -13,10 +13,10 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { Loader2 } from "lucide-react";
+import { Loader2, ReceiptTurkishLira } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
-// ✅ Validation Schema
+// Validation Schema
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password must be at least 8 characters"),
@@ -33,7 +33,14 @@ const LoginForm = () => {
     },
   });
 
-  // ✅ Handle submit
+  const adminCredentials = {
+    email: "admin@mail.com",
+    password: "admin12345",
+    role: "admin",
+    name: "System Admin",
+  };
+
+  //  Handle submit
   function onSubmit(values) {
     setLoading(true);
 
@@ -44,7 +51,23 @@ const LoginForm = () => {
         (user) =>
           user.email === values.email && user.password === values.password
       );
+      //check for admin
+      if (
+        values.email === adminCredentials.email &&
+        values.password === adminCredentials.password
+      ) {
+        localStorage.setItem("loggedInUser", JSON.stringify(adminCredentials));
+        localStorage.setItem("role", "admin");
 
+        toast.success("Welcome Back Admin");
+        setTimeout(() => {
+          window.location.href = "/admin";
+        }, 1500);
+        setLoading(false);
+        return true;
+      }
+
+      //other users roles
       if (validUser) {
         // store user + role
         localStorage.setItem("loggedInUser", JSON.stringify(validUser));
@@ -58,8 +81,6 @@ const LoginForm = () => {
             window.location.href = "/student";
           } else if (validUser.role === "instructor") {
             window.location.href = "/instructor";
-          } else if (validUser.role === "admin") {
-            window.location.href = "/admin";
           }
         }, 1500);
       } else {

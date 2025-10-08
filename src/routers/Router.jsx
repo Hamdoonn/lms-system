@@ -14,6 +14,7 @@ import AvailaibleCourses from "@/pages/student/courses/AvailaibleCourses";
 import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
 import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
+import StudentAttendance from "@/pages/student/Attendance";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
@@ -72,6 +73,7 @@ const Router = () => {
           <Route path="courses/enrolled" element={<EnrolledCourses />} />
           <Route path="assignments" element={<Assignments />} />
           <Route path="grades" element={<Grades />} />
+          <Route path="attendance" element={<StudentAttendance />} />
         </Route>
 
         {/* Admin Dashboard Layout */}
@@ -79,6 +81,7 @@ const Router = () => {
           <Route index element={<AdminDashboard />} />
           <Route path="/admin/reports" element={<Reports />} />
           <Route path="/admin/users" element={<Users />} />
+          <Route path="/admin/courses" element={<Courses />}/>
         </Route>
       </Routes>
     </BrowserRouter>

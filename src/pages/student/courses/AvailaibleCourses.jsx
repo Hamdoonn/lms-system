@@ -48,9 +48,9 @@ const AvailableCourses = () => {
     students: Math.floor(Math.random() * 400) + 100,
     duration: `${6 + (i % 6)} weeks`,
     image: [
-      "/src/assets/web-development.jpg",
-      "/src/assets/js.jpg",
-      "/src/assets/ux-ui.jpg",
+      "/assets/web-development.jpg",
+      "/assets/js.jpg",
+      "/assets/ux-ui.jpg",
     ][i % 3],
   }));
 
@@ -89,12 +89,11 @@ const AvailableCourses = () => {
     page * itemsPerPage
   );
 
-  // Handle enroll click
   const handleEnroll = (course) => {
     const enrolledCourses =
       JSON.parse(localStorage.getItem("enrolledCourses")) || [];
 
-    // Check for duplicates first
+    // Check if course already enrolled
     const alreadyEnrolled = enrolledCourses.some((c) => c.id === course.id);
     if (alreadyEnrolled) {
       toast.error("Enrollment Failed ❌", {
@@ -104,11 +103,23 @@ const AvailableCourses = () => {
       return;
     }
 
-    // Add new course
-    const updatedCourses = [...enrolledCourses, course];
+    // Add new course with enrollment details
+    const updatedCourse = {
+      id: course.id,
+      courseName: course.title,
+      instructor: course.instructor,
+      description: course.description,
+      category: course.category,
+      duration: course.duration,
+      dateEnrolled: new Date().toISOString().split("T")[0],
+      level: course.level,
+      image: course.image,
+    };
+
+    const updatedCourses = [...enrolledCourses, updatedCourse];
     localStorage.setItem("enrolledCourses", JSON.stringify(updatedCourses));
 
-    // Show success toast
+    // Success toast
     toast.success("Course Enrolled Successfully 🎉", {
       description: "You can view it anytime in 'Enrolled Courses'.",
       duration: 4000,
