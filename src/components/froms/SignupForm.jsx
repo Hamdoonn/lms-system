@@ -118,7 +118,6 @@ const SignupForm = () => {
                 <select {...field} className="border rounded px-2 py-1 w-full">
                   <option value="student">Student</option>
                   <option value="instructor">Instructor</option>
-                  <option value="admin">Admin</option>
                 </select>
               </FormControl>
               <FormMessage />
