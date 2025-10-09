@@ -21,6 +21,7 @@ export default function InstructorAttendence() {
     { id: 1, roll: "BSCS-001", name: "Ali Khan", status: "present", remarks: "" },
     { id: 2, roll: "BSCS-002", name: "Sara Ahmed", status: "absent", remarks: "" },
     { id: 3, roll: "BSCS-003", name: "Bilal Hussain", status: "late", remarks: "" },
+    { id: 4, roll: "BSCS-004", name: " Hussain ali", status: "leave", remarks: "" },
   ]
 
   const handleLoadStudents = () => {
