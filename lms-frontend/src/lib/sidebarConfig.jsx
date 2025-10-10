@@ -48,6 +48,7 @@ export const sidebarConfig = {
     },
     { label: "Grades", icon: "check-circle", path: "/instructor/grades" },
     { label: "Students", icon: "users", path: "/instructor/students" },
+   { label: "Attendance", icon: "users", path: "/instructor/attendance" },
     { label: "Settings", icon: "settings", path: "/instructor/settings" },
   ],
 
