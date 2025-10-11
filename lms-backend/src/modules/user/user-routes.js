@@ -16,14 +16,6 @@ const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-//admin only routes
-router.get("/", protect, authorize("admin"), getAllUsers);
-router.delete("/:id", protect, authorize("admin"), deleteUser);
-
-// User-specific routes (admin or self)
-router.get("/:id", protect, allowSelForAdmin, getUserById);
-router.put("/:id", protect, allowSelForAdmin, updateUser);
-
 // / --- Test Routes for Role Check ---
 // Any logged-in user can check their role
 router.get("/my-role", protect, (req, res) => {
@@ -48,5 +40,13 @@ router.get("/instructor-area", protect, authorize("instructor"), (req, res) => {
 router.get("/admin-area", protect, authorize("admin"), (req, res) => {
   res.json({ message: "Welcome Admin!", role: req.user.role });
 });
+
+//admin only routes
+router.get("/", protect, authorize("admin"), getAllUsers);
+router.delete("/:id", protect, authorize("admin"), deleteUser);
+
+// User-specific routes (admin or self)
+router.get("/:id", protect, allowSelForAdmin, getUserById);
+router.put("/:id", protect, allowSelForAdmin, updateUser);
 
 export default router;
