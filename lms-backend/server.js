@@ -6,6 +6,7 @@ import connectDB from "./src/config/db.js";
 import userRoutes from "./src/modules/user/user-routes.js";
 import assignmentRoutes from "./src/modules/assignment/assignment-routes.js";
 import attendanceRoutes from "./src/modules/attendance/attendance-routes.js";
+import submissionRoutes from "./src/modules/submission/submission-routes.js";
 
 import courseRoutes from "./src/modules/course/course-routes.js"; 
 import reportRoutes from "./src/modules/report/report-routes.js";
@@ -19,6 +20,8 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
+app.use("/api/submissions", submissionRoutes);
+
 
 //connect mongodb
 connectDB();
