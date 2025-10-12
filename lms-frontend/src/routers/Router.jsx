@@ -22,7 +22,11 @@ import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
+<<<<<<< HEAD:src/routers/Router.jsx
+import Courses from"@/pages/admin/Courses";
+=======
 import Courses from "@/pages/admin/Courses";
+>>>>>>> main:lms-frontend/src/routers/Router.jsx
 // InstructorDashboard
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
@@ -30,6 +34,7 @@ import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
 import InstructorAssignments from "@/pages/instructore/Assignments";
 import InstructorGrades from "@/pages/instructore/Grades";
+import InstructorAttendance from"@/pages/instructore/InstructorAttendence";
 
 const Router = () => {
   return (
@@ -66,6 +71,7 @@ const Router = () => {
           />
           <Route path="/instructor/grades" element={<InstructorGrades />} />
           <Route path="/instructor/students" element={<Students />} />
+         <Route path="/instructor/attendance" element={<InstructorAttendance />} />
           <Route path="/instructor/settings" element={<Settings />} />
         </Route>
 
