@@ -1,15 +1,38 @@
 import CourseService from "./course-service.js";
 import * as reportService from "../report/report-service.js";
 
-// Create a new course
 
+ //Create a new course
+ // Only instructors can create courses
+ 
 export const createCourse = async (req, res) => {
-  // TODO: Once Auth module is added, fetch instructor name from req.user
-  // Example: const instructorName = req.user?.name;
-
   try {
-    // Create the course first
-    const newCourse = await CourseService.createCourse(req.body);
+    // Ensure the user is authenticated
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized - Please log in" });
+    }
+    console.log("🧑 Logged-in user:", req.user);
+
+    // Only instructors can create courses
+    if (req.user.role !== "instructor") {
+      return res
+        .status(403)
+        .json({ message: "Only instructors can create courses" });
+    }
+
+    // Get instructor name from logged-in user
+    const instructorName = req.user.name;
+
+    console.log("✅ Instructor Name:", instructorName); 
+
+    // Merge instructor name into course data
+    const courseData = {
+      ...req.body,
+      instructor: instructorName,
+    };
+
+    // Create the course
+    const newCourse = await CourseService.createCourse(courseData);
 
     // Auto-generate a report for the new course
     try {
@@ -25,8 +48,7 @@ export const createCourse = async (req, res) => {
       console.error(" Failed to auto-generate report:", err.message);
     }
 
-    // Respond to client
-    res.status(201).json({
+    res.status(200).json({
       message: "Course created successfully and report generated.",
       course: newCourse,
     });
@@ -38,8 +60,9 @@ export const createCourse = async (req, res) => {
   }
 };
 
-// Get all courses
 
+ //Get all courses
+ 
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await CourseService.getAllCourses();
@@ -52,8 +75,9 @@ export const getAllCourses = async (req, res) => {
   }
 };
 
-// Get course by ID
 
+ //Get course by ID
+ 
 export const getCourseById = async (req, res) => {
   try {
     const course = await CourseService.getCourseById(req.params.id);
@@ -68,20 +92,29 @@ export const getCourseById = async (req, res) => {
   }
 };
 
-// Update course by ID
 
+// Update course by ID
+ // Only admins can update courses
+ 
 export const updateCourse = async (req, res) => {
   try {
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Only admins can update courses",
+      });
+    }
+
+    const existingCourse = await CourseService.getCourseById(req.params.id);
+    if (!existingCourse)
+      return res.status(404).json({ message: "Course not found" });
+
     const updatedCourse = await CourseService.updateCourse(
       req.params.id,
       req.body
     );
 
-    if (!updatedCourse)
-      return res.status(404).json({ message: "Course not found" });
-
     res.status(200).json({
-      message: "Course updated successfully",
+      message: "Course updated successfully by admin",
       course: updatedCourse,
     });
   } catch (error) {
@@ -93,13 +126,23 @@ export const updateCourse = async (req, res) => {
 };
 
 // Delete course by ID
+// Only admins can delete courses
+ 
 export const deleteCourse = async (req, res) => {
   try {
-    const deletedCourse = await CourseService.deleteCourse(req.params.id);
-    if (!deletedCourse)
+    if (req.user.role !== "admin") {
+      return res.status(403).json({
+        message: "Only admins can delete courses",
+      });
+    }
+
+    const existingCourse = await CourseService.getCourseById(req.params.id);
+    if (!existingCourse)
       return res.status(404).json({ message: "Course not found" });
 
-    res.status(200).json({ message: "Course deleted successfully" });
+    await CourseService.deleteCourse(req.params.id);
+
+    res.status(200).json({ message: "Course deleted successfully by admin" });
   } catch (error) {
     res.status(500).json({
       message: "Failed to delete course",
