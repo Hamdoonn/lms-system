@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose"
 import connectDB from "./src/config/db.js";
 
+import userRoutes from "./src/modules/user/user-routes.js";
 import courseRoutes from "./src/modules/course/course-routes.js"; 
 import reportRoutes from "./src/modules/report/report-routes.js";
 
@@ -11,6 +12,8 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
+//routes
+app.use("/api/users", userRoutes);
 
 //connect mongodb
 connectDB();
