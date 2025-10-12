@@ -22,11 +22,7 @@ import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
-<<<<<<< HEAD:src/routers/Router.jsx
 import Courses from"@/pages/admin/Courses";
-=======
-import Courses from "@/pages/admin/Courses";
->>>>>>> main:lms-frontend/src/routers/Router.jsx
 // InstructorDashboard
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
