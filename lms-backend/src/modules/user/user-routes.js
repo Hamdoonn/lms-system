@@ -16,7 +16,7 @@ const router = Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-// / --- Test Routes for Role Check ---
+// Test Routes for Role Check
 // Any logged-in user can check their role
 router.get("/my-role", protect, (req, res) => {
   res.json({
