@@ -5,7 +5,7 @@ import * as assignmentService from "./assignment-service.js";
 export const createAssignment = async (req, res) => {
   try {
     // If using authentication middleware, add this later:
-    // req.body.createdBy = req.user._id;
+    req.body.createdBy = req.user._id;
 
     const assignment = await assignmentService.createAssignment(req.body);
     res.status(201).json({
