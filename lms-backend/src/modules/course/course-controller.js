@@ -1,15 +1,12 @@
 import CourseService from "./course-service.js";
 import * as reportService from "../report/report-service.js";
 
-
 // Create a new course
 
 export const createCourse = async (req, res) => {
-  
-    // TODO: Once Auth module is added, fetch instructor name from req.user
-    // Example: const instructorName = req.user?.name;
+  // TODO: Once Auth module is added, fetch instructor name from req.user
+  // Example: const instructorName = req.user?.name;
 
-    
   try {
     // Create the course first
     const newCourse = await CourseService.createCourse(req.body);
@@ -60,8 +57,7 @@ export const getAllCourses = async (req, res) => {
 export const getCourseById = async (req, res) => {
   try {
     const course = await CourseService.getCourseById(req.params.id);
-    if (!course)
-      return res.status(404).json({ message: "Course not found" });
+    if (!course) return res.status(404).json({ message: "Course not found" });
 
     res.status(200).json(course);
   } catch (error) {
@@ -95,7 +91,6 @@ export const updateCourse = async (req, res) => {
     });
   }
 };
-
 
 // Delete course by ID
 export const deleteCourse = async (req, res) => {
