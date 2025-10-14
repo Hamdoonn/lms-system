@@ -16,13 +16,6 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-//routes
-app.use("/api/users", userRoutes);
-app.use("/api/assignments", assignmentRoutes);
-app.use("/api/attendance", attendanceRoutes);
-app.use("/api/submissions", submissionRoutes);
-
-
 //connect mongodb
 connectDB();
 
@@ -31,13 +24,13 @@ app.get("/", (req, res) => {
 });
 
 // MAIN API routes
-
 app.use("/api/courses", courseRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
+app.use("/api/submissions", submissionRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
