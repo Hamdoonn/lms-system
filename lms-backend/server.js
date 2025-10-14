@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import connectDB from "./src/config/db.js";
 
 import userRoutes from "./src/modules/user/user-routes.js";
@@ -8,20 +8,13 @@ import assignmentRoutes from "./src/modules/assignment/assignment-routes.js";
 import attendanceRoutes from "./src/modules/attendance/attendance-routes.js";
 import submissionRoutes from "./src/modules/submission/submission-routes.js";
 
-import courseRoutes from "./src/modules/course/course-routes.js"; 
+import courseRoutes from "./src/modules/course/course-routes.js";
 import reportRoutes from "./src/modules/report/report-routes.js";
-
+import enrollmentRoutes from "./src/modules/enrollment/enrollment-routes.js";
 dotenv.config();
 
 const app = express();
 app.use(express.json());
-
-//routes
-app.use("/api/users", userRoutes);
-app.use("/api/assignments", assignmentRoutes);
-app.use("/api/attendance", attendanceRoutes);
-app.use("/api/submissions", submissionRoutes);
-
 
 //connect mongodb
 connectDB();
@@ -31,10 +24,13 @@ app.get("/", (req, res) => {
 });
 
 // MAIN API routes
-
 app.use("/api/courses", courseRoutes);
 app.use("/api/reports", reportRoutes);
-
+app.use("/api/assignments", assignmentRoutes);
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
+app.use("/api/submissions", submissionRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
