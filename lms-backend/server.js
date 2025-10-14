@@ -8,9 +8,9 @@ import assignmentRoutes from "./src/modules/assignment/assignment-routes.js";
 import attendanceRoutes from "./src/modules/attendance/attendance-routes.js";
 import submissionRoutes from "./src/modules/submission/submission-routes.js";
 
-import courseRoutes from "./src/modules/course/course-routes.js"; 
+import courseRoutes from "./src/modules/course/course-routes.js";
 import reportRoutes from "./src/modules/report/report-routes.js";
-
+import enrollmentRoutes from "./src/modules/enrollment/enrollment-routes.js";
 dotenv.config();
 
 const app = express();
@@ -34,8 +34,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/courses", courseRoutes);
 app.use("/api/reports", reportRoutes);
-//user routes
+app.use("/api/assignments", assignmentRoutes);
+app.use("/api/attendance", attendanceRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
