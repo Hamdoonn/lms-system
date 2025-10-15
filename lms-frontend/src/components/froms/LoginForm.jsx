@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Loader2, ReceiptTurkishLira } from "lucide-react";
 import { toast, Toaster } from "sonner";
+import { useRole } from "@/context/RoleContext";
+import axios from "axios";
 
 // Validation Schema
 const loginSchema = z.object({
@@ -24,7 +26,7 @@ const loginSchema = z.object({
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
-
+  const { setRole } = useRole();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,66 +35,39 @@ const LoginForm = () => {
     },
   });
 
-  const adminCredentials = {
-    email: "admin@mail.com",
-    password: "admin12345",
-    role: "admin",
-    name: "System Admin",
-  };
-
-  //  Handle submit
-  function onSubmit(values) {
+  const onSubmit = async (values) => {
     setLoading(true);
-
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users")) || [];
-
-      const validUser = users.find(
-        (user) =>
-          user.email === values.email && user.password === values.password
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/api/users/login",
+        values
       );
-      //check for admin
-      if (
-        values.email === adminCredentials.email &&
-        values.password === adminCredentials.password
-      ) {
-        localStorage.setItem("loggedInUser", JSON.stringify(adminCredentials));
-        localStorage.setItem("role", "admin");
 
-        toast.success("Welcome Back Admin");
-        setTimeout(() => {
+      // Save JWT token and user info
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("loggedInUser", JSON.stringify(data.user));
+      setRole(data.user.role);
+
+      toast.success("Login Successful 🎉");
+
+      // Redirect based on role
+      setTimeout(() => {
+        if (data.user.role === "admin") {
           window.location.href = "/admin";
-        }, 1500);
-        setLoading(false);
-        return true;
-      }
-
-      //other users roles
-      if (validUser) {
-        // store user + role
-        localStorage.setItem("loggedInUser", JSON.stringify(validUser));
-        localStorage.setItem("role", validUser.role);
-
-        toast.success("Login Successful 🎉");
-
-        // Redirect user to their role's dashboard
-        setTimeout(() => {
-          if (validUser.role === "student") {
-            window.location.href = "/student";
-          } else if (validUser.role === "instructor") {
-            window.location.href = "/instructor";
-          }
-        }, 1500);
-      } else {
-        toast.error("Login Failed ❌", {
-          description: "Invalid email or password.",
-        });
-      }
-
+        } else if (data.user.role === "student") {
+          window.location.href = "/student";
+        } else if (data.user.role === "instructor") {
+          window.location.href = "/instructor";
+        }
+      }, 1000);
+    } catch (err) {
+      toast.error("Login Failed ❌", {
+        description: err.response?.data?.message || err.message,
+      });
+    } finally {
       setLoading(false);
-    }, 2000);
-  }
-
+    }
+  };
   return (
     <Form {...form}>
       <Toaster position="top-center" richColors />
