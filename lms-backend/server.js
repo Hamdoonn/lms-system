@@ -11,13 +11,46 @@ import submissionRoutes from "./src/modules/submission/submission-routes.js";
 import courseRoutes from "./src/modules/course/course-routes.js";
 import reportRoutes from "./src/modules/report/report-routes.js";
 import enrollmentRoutes from "./src/modules/enrollment/enrollment-routes.js";
+
+import User from "./src/modules/user/user-model.js";
+import cors from "cors";
+
 dotenv.config();
 
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 //connect mongodb
-connectDB();
+connectDB().then(() => {
+  // Create admin automatically if not exists
+  createDefaultAdmin();
+});
+// Function to auto-create admin if missing
+async function createDefaultAdmin() {
+  try {
+    const adminExists = await User.findOne({ role: "admin" });
+
+    if (!adminExists) {
+      await User.create({
+        name: "System Admin",
+        email: "admin@mail.com",
+        password: "admin12345",
+        role: "admin",
+      });
+      console.log("Default admin created: admin@mail.com / admin12345");
+    } else {
+      console.log("admin already exists");
+    }
+  } catch (err) {
+    console.error("❌ Error creating default admin:", err);
+  }
+}
 
 app.get("/", (req, res) => {
   res.send("API is running...");
