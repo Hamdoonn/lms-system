@@ -48,11 +48,15 @@ const LoginForm = () => {
       localStorage.setItem("loggedInUser", JSON.stringify(data.user));
       setRole(data.user.role);
 
+<<<<<<< HEAD
       toast.success("Login Successful 🎉");
       //extra code for conflict checking
       localStorage.setItem("token", data.token);
       localStorage.setItem("loggedInUser", JSON.stringify(data.user));
       setRole(data.user.role);
+=======
+      //TOAST.Success
+>>>>>>> 52822a8 (changed toast)
 
       // Redirect based on role
       setTimeout(() => {
