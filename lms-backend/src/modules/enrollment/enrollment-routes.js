@@ -6,25 +6,58 @@ import {
   deleteEnrollment,
   getEnrollmentByCourseForStudent,
 } from "./enrollment-controller.js";
-
+import EnrollmentService from "./enrollment-service.js"; // ✅ Missing import fixed
 import { protect, authorize } from "../../middleware/auth-middleware.js";
 
 const router = express.Router();
 
-// Student enrolls in a course
+/**
+ *     Student enrolls in a course
+ */
 router.post("/", protect, authorize("student"), createEnrollment);
 
-// Student gets their own enrollment in a course
-// Admin gets all enrollments for this course
+/**
+  Get all courses the logged-in student has enrolled in
+ */
+router.get("/my", protect, authorize("student"), async (req, res) => {
+  try {
+    const studentId = req.user._id;
+    const enrollments = await EnrollmentService.getStudentEnrollments(
+      studentId
+    );
+
+    res.status(200).json({
+      success: true,
+      count: enrollments.length,
+      data: enrollments,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch enrolled courses",
+      error: error.message,
+    });
+  }
+});
+
+/**
+ *  all enrollments for a specific course (student/admin)
+ */
 router.get("/course/:courseId", protect, getEnrollmentByCourseForStudent);
 
-// Admin fetches ALL enrollments
+/**
+ * Get all enrollments (Admin only)
+ */
 router.get("/", protect, authorize("admin"), getAllEnrollments);
 
-// Admin OR Owner fetch enrollment by enrollmentId (ENR-xxxx)
+/**
+ *     Get specific enrollment by enrollment ID
+ */
 router.get("/:id", protect, getEnrollmentById);
 
-// Admin deletes any, student cancels their own
+/**
+ *    Delete or cancel an enrollment
+ */
 router.delete("/:id", protect, deleteEnrollment);
 
 export default router;

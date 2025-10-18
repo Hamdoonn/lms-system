@@ -24,6 +24,10 @@ const courseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    level: {
+      type: String,
+      required: true,
+    },
     price: {
       type: String,
       required: true,
@@ -38,6 +42,13 @@ const courseSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+courseSchema.pre("findOneAndDelete", async function (next) {
+  const course = await this.model.findOne(this.getFilter());
+  if (course) {
+    await Enrollment.deleteMany({ course: course._id });
+  }
+  next();
+});
 
 const Course = mongoose.model("Course", courseSchema);
 export default Course;
