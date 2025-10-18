@@ -14,6 +14,7 @@ const router = Router();
 
 // public routes
 router.post("/register", registerUser);
+
 router.post("/login", loginUser);
 
 // Test Routes for Role Check

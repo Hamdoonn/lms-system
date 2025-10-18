@@ -33,19 +33,22 @@ connectDB().then(() => {
 });
 // Function to auto-create admin if missing
 async function createDefaultAdmin() {
+  console.log("Connected DB:", mongoose.connection.db.databaseName);
+
   try {
-    const adminExists = await User.findOne({ role: "admin" });
+    const adminEmail = "admin@mail.com";
+    const adminExists = await User.findOne({ email: adminEmail });
 
     if (!adminExists) {
       await User.create({
         name: "System Admin",
-        email: "admin@mail.com",
+        email: adminEmail,
         password: "admin12345",
         role: "admin",
       });
-      console.log("Default admin created: admin@mail.com / admin12345");
+      console.log(`Default admin created: ${adminEmail} / admin12345`);
     } else {
-      console.log("admin already exists");
+      console.log("Admin already exists");
     }
   } catch (err) {
     console.error("❌ Error creating default admin:", err);

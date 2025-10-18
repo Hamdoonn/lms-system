@@ -42,10 +42,15 @@ const findByStudentAndCourse = async (studentId, courseId) => {
 
 // Get all enrollments of a student
 const getStudentEnrollments = async (studentId) => {
-  return Enrollment.find({ student: studentId }).populate(
-    "course",
-    "title instructor"
-  );
+  const enrollments = await Enrollment.find({ student: studentId })
+    .populate({
+      path: "course",
+      match: { _id: { $ne: null } }, // exclude if course is missing
+    })
+    .lean();
+
+  // Filter out enrollments where the course got deleted
+  return enrollments.filter((enrollment) => enrollment.course !== null);
 };
 
 // Get all enrollments of a course
