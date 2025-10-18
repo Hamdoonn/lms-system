@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,6 +16,7 @@ import {
 
 import { toast } from "sonner";
 import { Toaster } from "sonner";
+import axios from "axios";
 const signupSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters"),
   email: z.string().email("Invalid email address"),
@@ -24,6 +25,7 @@ const signupSchema = z.object({
 });
 
 const SignupForm = () => {
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -34,26 +36,30 @@ const SignupForm = () => {
     },
   });
 
-  function onSubmit(values) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+  const onSubmit = async (values) => {
+    setLoading(true);
+    try {
+      console.log("Signup data:", values);
 
-    // check if email already exists
-    const userExist = users.find((user) => user.email === values.email);
-    if (userExist) {
-      toast.error("User already exists with this email");
-      return;
+      const res = await axios.post(
+        "http://localhost:4000/api/users/register",
+        values
+      );
+      if (res.data.success) {
+        toast.success("Signup Successfull");
+        setTimeout(() => {
+          window.location.href = "/auth/login";
+        }, 1500);
+      } else {
+        toast.error(res.data.message || "Something went wrong");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Error while signing up");
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-
-    // save new user
-    users.push(values);
-    localStorage.setItem("users", JSON.stringify(users));
-
-    toast.success("Sign up Successful 🎉");
-
-    setTimeout(() => {
-      window.location.href = "/auth/Login";
-    }, 1500);
-  }
+  };
 
   return (
     <Form {...form}>
@@ -128,9 +134,10 @@ const SignupForm = () => {
         {/* Submit Button */}
         <Button
           type="submit"
+          disabled={loading}
           className="w-full bg-[#4B0082] transition ease-in-out duration-400 hover:bg-[#4c0082c7] cursor-pointer"
         >
-          Sign Up
+          {loading ? "Signing up..." : "Sign Up"}
         </Button>
       </form>
     </Form>
