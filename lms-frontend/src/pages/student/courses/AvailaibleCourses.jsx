@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,45 +14,24 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { toast, Toaster } from "sonner";
+import axios from "axios";
 
 const AvailableCourses = () => {
   // Sample 25 demo courses
-  const allCourses = Array.from({ length: 25 }, (_, i) => ({
-    id: i + 1,
-    title: [
-      "Introduction to React",
-      "Advanced JavaScript",
-      "UI/UX Design Principles",
-      "Python for Beginners",
-      "Database Design",
-      "Cybersecurity Fundamentals",
-      "API Development",
-      "Machine Learning Basics",
-      "Fullstack Development",
-      "DevOps Essentials",
-    ][i % 10],
-    instructor: [
-      "John Smith",
-      "Sarah Johnson",
-      "Mike Chen",
-      "Alex Lee",
-      "Emma Davis",
-    ][i % 5],
-    description: "Learn the fundamentals of modern web development and design.",
-    price: ["$79", "$99", "$149"][i % 3],
-    level: ["Beginner", "Intermediate", "Advanced"][i % 3],
-    category: ["Web Development", "Programming", "Design", "Data Science"][
-      i % 4
-    ],
-    rating: (4 + Math.random()).toFixed(1),
-    students: Math.floor(Math.random() * 400) + 100,
-    duration: `${6 + (i % 6)} weeks`,
-    image: [
-      "/assets/web-development.jpg",
-      "/assets/js.jpg",
-      "/assets/ux-ui.jpg",
-    ][i % 3],
-  }));
+  const [allCourses, setAllCourses] = useState([]);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/courses");
+        setAllCourses(res.data);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
@@ -89,43 +68,36 @@ const AvailableCourses = () => {
     page * itemsPerPage
   );
 
-  const handleEnroll = (course) => {
-    const enrolledCourses =
-      JSON.parse(localStorage.getItem("enrolledCourses")) || [];
+  const handleEnroll = async (courseId) => {
+    try {
+      const token = localStorage.getItem("token"); // ✅ store your token after login
 
-    // Check if course already enrolled
-    const alreadyEnrolled = enrolledCourses.some((c) => c.id === course.id);
-    if (alreadyEnrolled) {
-      toast.error("Enrollment Failed ❌", {
-        description: "You are already enrolled in this course.",
-        duration: 3000,
-      });
-      return;
+      if (!token) {
+        toast.error("Please login first to enroll in a course");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:4000/api/enrollments",
+        { courseId }, // send courseId
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ send JWT in header
+          },
+        }
+      );
+
+      if (response.status === 201 || response.data.success) {
+        toast.success("Enrolled successfully!");
+        // Optional: redirect or update enrolled courses
+      } else {
+        toast.error(response.data.message || "Failed to enroll");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Error enrolling in course");
     }
-
-    // Add new course with enrollment details
-    const updatedCourse = {
-      id: course.id,
-      courseName: course.title,
-      instructor: course.instructor,
-      description: course.description,
-      category: course.category,
-      duration: course.duration,
-      dateEnrolled: new Date().toISOString().split("T")[0],
-      level: course.level,
-      image: course.image,
-    };
-
-    const updatedCourses = [...enrolledCourses, updatedCourse];
-    localStorage.setItem("enrolledCourses", JSON.stringify(updatedCourses));
-
-    // Success toast
-    toast.success("Course Enrolled Successfully 🎉", {
-      description: "You can view it anytime in 'Enrolled Courses'.",
-      duration: 4000,
-    });
   };
-
   return (
     <section>
       {/* Header */}
@@ -238,7 +210,7 @@ const AvailableCourses = () => {
                 </div>
 
                 <Button
-                  onClick={() => handleEnroll(course)}
+                  onClick={() => handleEnroll(course._id)}
                   className="mx-5 mb-5 bg-[#4b0082] text-white font-medium cursor-pointer transition-all ease-in-out duration-300 hover:bg-[#4c0082b8]"
                 >
                   Enroll now
