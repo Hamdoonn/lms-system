@@ -1,13 +1,21 @@
 import * as userService from "./user-service.js";
 import { generateToken } from "../../utils/generateToken.js";
+import { success } from "zod";
 
 // REGISTER
 export const registerUser = async (req, res, next) => {
   try {
+    console.log("Incoming signup data:", req.body);
+
     const user = await userService.registerUser(req.body);
-    res.status(201).json(user);
+
+    res.status(201).json({
+      success: true,
+      message: "Registered Successfully",
+    });
   } catch (err) {
-    next(err);
+    console.error("Register Error:", err);
+    res.status(500).json({ success: false, message: err.message });
   }
 };
 
