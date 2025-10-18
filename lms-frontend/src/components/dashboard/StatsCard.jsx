@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Award,
   BookOpen,
@@ -18,37 +18,38 @@ import {
   Cross,
   Ban,
 } from "lucide-react";
+import axios from "axios";
 
 // role base card data
-const getStatsData = (role, page) => {
+const getStatsData = (role, page, dynamicData) => {
   if (role === "student") {
     if (page === "dashboard") {
       return [
         {
           icon: BookOpen,
           title: "Enrolled Courses",
-          number: "2",
+          number: dynamicData?.enrolledCount || 0,
           percentage: "+12%",
           Trending: "Trending up this month",
         },
         {
           icon: Award,
           title: "Completed Courses",
-          number: "5",
+          number: dynamicData?.completedCount || 0,
           percentage: "+8%",
           Trending: "Consistent growth",
         },
         {
           icon: TrendingUp,
           title: "Average Progress",
-          number: "65%",
+          number: dynamicData?.averageProgress || 0,
           percentage: "+5%",
           Trending: "Improved learning",
         },
         {
           icon: Clock,
           title: "Hours Learned",
-          number: "30",
+          number: dynamicData?.hoursLearned || 0,
           percentage: "+10%",
           Trending: "Steady pace",
         },
@@ -267,9 +268,47 @@ const getStatsData = (role, page) => {
 
   return [];
 };
-
 const StatsCard = ({ role, page }) => {
-  let cardContent = getStatsData(role, page);
+  const [dynamicData, setDynamicData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDynamicData = async () => {
+      if (role === "student" && page === "dashboard") {
+        try {
+          const token = localStorage.getItem("token");
+          const res = await axios.get(
+            "http://localhost:4000/api/enrollments/my",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+
+          const enrolledCount = res.data?.data?.length || 0;
+
+          setDynamicData({
+            enrolledCount,
+            completedCount: 2, // placeholder, you can later make dynamic
+            averageProgress: "65%", // placeholder
+            hoursLearned: "30", // placeholder
+          });
+        } catch (error) {
+          console.error("Failed to load student stats:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchDynamicData();
+  }, [role, page]);
+
+  const cardContent = getStatsData(role, page, dynamicData);
+
+  if (loading)
+    return <p className="text-center mt-10">Loading statistics...</p>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 py-5">
