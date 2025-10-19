@@ -6,7 +6,7 @@ import {
   deleteEnrollment,
   getEnrollmentByCourseForStudent,
 } from "./enrollment-controller.js";
-import EnrollmentService from "./enrollment-service.js"; // ✅ Missing import fixed
+import EnrollmentService from "./enrollment-service.js";
 import { protect, authorize } from "../../middleware/auth-middleware.js";
 
 const router = express.Router();

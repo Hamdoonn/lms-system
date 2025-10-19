@@ -15,6 +15,7 @@ import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
 import Assignments from "@/pages/student/Assignments";
 import Grades from "@/pages/student/Grades";
 import StudentAttendance from "@/pages/student/Attendance";
+import CourseDetail from "@/pages/student/courses/CourseDetail";
 
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
@@ -22,7 +23,7 @@ import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 import AdminDashboard from "@/pages/admin/AdminDashboard";
 import Reports from "@/pages/admin/Reports";
 import Users from "@/pages/admin/Users";
-import Courses from"@/pages/admin/Courses";
+import Courses from "@/pages/admin/Courses";
 // InstructorDashboard
 import InstructorDashboard from "@/pages/instructore/InstructorDashboard";
 import AddCourses from "@/pages/instructore/courses/AddCourses";
@@ -30,7 +31,7 @@ import ManageCourses from "@/pages/instructore/courses/ManageCourses";
 import Students from "@/pages/instructore/Students";
 import InstructorAssignments from "@/pages/instructore/Assignments";
 import InstructorGrades from "@/pages/instructore/Grades";
-import InstructorAttendance from"@/pages/instructore/InstructorAttendence";
+import InstructorAttendance from "@/pages/instructore/InstructorAttendence";
 
 const Router = () => {
   return (
@@ -67,7 +68,10 @@ const Router = () => {
           />
           <Route path="/instructor/grades" element={<InstructorGrades />} />
           <Route path="/instructor/students" element={<Students />} />
-         <Route path="/instructor/attendance" element={<InstructorAttendance />} />
+          <Route
+            path="/instructor/attendance"
+            element={<InstructorAttendance />}
+          />
           <Route path="/instructor/settings" element={<Settings />} />
         </Route>
 
@@ -76,6 +80,7 @@ const Router = () => {
           <Route index element={<StudentDashboard />} />
           <Route path="courses/available" element={<AvailaibleCourses />} />
           <Route path="courses/enrolled" element={<EnrolledCourses />} />
+          <Route path="courses/:id" element={<CourseDetail />} />
           <Route path="assignments" element={<Assignments />} />
           <Route path="grades" element={<Grades />} />
           <Route path="attendance" element={<StudentAttendance />} />

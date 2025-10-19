@@ -6,14 +6,25 @@ export const createAttendance = async (attendanceData) => {
   return await attendance.save();
 };
 
-// Get all attendance records
-export const getAllAttendance = async () => {
-  return await Attendance.find().sort({ date: -1 }); // latest first
+// Get attendance records for a specific student and course
+export const getAttendanceByStudentAndCourse = async (studentId, courseId) => {
+  return await Attendance.find({ student: studentId, course: courseId })
+    .populate("student", "name email")
+    .populate("course", "title category")
+    .sort({ date: -1 });
 };
 
-// Get single attendance by ID
+export const getAllAttendance = async () => {
+  return await Attendance.find()
+    .populate("student", "name email")
+    .populate("course", "title category")
+    .sort({ date: -1 });
+};
+
 export const getAttendanceById = async (id) => {
-  return await Attendance.findById(id);
+  return await Attendance.findById(id)
+    .populate("student", "name email")
+    .populate("course", "title category");
 };
 
 // Update attendance record
