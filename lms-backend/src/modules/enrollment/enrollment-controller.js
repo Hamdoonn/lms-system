@@ -133,6 +133,47 @@ export const getEnrollmentByCourseForStudent = async (req, res) => {
 };
 
 /**
+ * Get all students enrolled in a course (Instructor)
+ */
+export const getEnrollmentByCourseForInstructor = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    // Only instructor or admin can access this
+    if (req.user.role !== "instructor" && req.user.role !== "admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    // If instructor, check if they own the course
+    if (req.user.role === "instructor") {
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+      if (course.instructor.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: "You do not own this course" });
+      }
+    }
+
+    // Fetch all enrollments for this course
+    const enrollments = await EnrollmentService.getCourseEnrollments(courseId);
+
+    return res.status(200).json({
+      success: true,
+      count: enrollments.length,
+      data: enrollments,
+    });
+  } catch (error) {
+    console.error("Error fetching enrollments:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch enrollments",
+      error: error.message,
+    });
+  }
+};
+
+/**
  * Update enrollment (Admin or Owner can update)
  */
 export const updateEnrollment = async (req, res) => {

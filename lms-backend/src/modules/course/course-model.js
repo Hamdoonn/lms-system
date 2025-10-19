@@ -1,10 +1,15 @@
 import mongoose from "mongoose";
+import Enrollment from "../enrollment/enrollment-model.js";
 
 const courseSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     description: { type: String, required: true },
-    instructor: { type: String, required: true, trim: true },
+    instructor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     duration: { type: String, required: true },
     category: { type: String, required: true },
     level: { type: String, required: true },
@@ -24,6 +29,7 @@ const courseSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// When a course is deleted, also remove its enrollments
 courseSchema.pre("findOneAndDelete", async function (next) {
   const course = await this.model.findOne(this.getFilter());
   if (course) {

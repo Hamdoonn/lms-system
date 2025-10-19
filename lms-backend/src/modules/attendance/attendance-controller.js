@@ -13,6 +13,27 @@ export const createAttendance = async (req, res) => {
   }
 };
 
+// Get attendance for logged-in student in a specific course
+export const getMyAttendanceByCourse = async (req, res) => {
+  try {
+    const studentId = req.user._id;
+    const { courseId } = req.params;
+
+    const records = await attendanceService.getAttendanceByStudentAndCourse(
+      studentId,
+      courseId
+    );
+
+    res.status(200).json(records); // even if empty, return []
+  } catch (error) {
+    console.error("Error fetching student attendance:", error);
+    res.status(500).json({
+      message: "Failed to fetch attendance for this course",
+      error: error.message,
+    });
+  }
+};
+
 // Get attendance by student and course
 export const getAttendanceByStudentAndCourse = async (req, res) => {
   try {

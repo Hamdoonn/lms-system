@@ -132,21 +132,21 @@ const Onboarding = () => {
                 <span className="text-sm font-medium text-gray-500">
                   Courses
                 </span>
-                <strong className="mt-1 text-5xl text-gray-900">800+</strong>
+                <strong className="mt-1 text-5xl text-gray-900">60+</strong>
               </div>
 
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-500">
                   Instructors
                 </span>
-                <strong className="mt-1 text-5xl text-gray-900">120+</strong>
+                <strong className="mt-1 text-5xl text-gray-900">25+</strong>
               </div>
 
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-500">
                   Students
                 </span>
-                <strong className="mt-1 text-5xl text-gray-900">15k+</strong>
+                <strong className="mt-1 text-5xl text-gray-900">10k+</strong>
               </div>
             </div>
           </div>

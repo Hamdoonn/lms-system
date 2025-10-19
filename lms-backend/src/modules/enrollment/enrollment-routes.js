@@ -5,6 +5,7 @@ import {
   getEnrollmentById,
   deleteEnrollment,
   getEnrollmentByCourseForStudent,
+  getEnrollmentByCourseForInstructor,
 } from "./enrollment-controller.js";
 import EnrollmentService from "./enrollment-service.js";
 import { protect, authorize } from "../../middleware/auth-middleware.js";
@@ -15,6 +16,15 @@ const router = express.Router();
  *     Student enrolls in a course
  */
 router.post("/", protect, authorize("student"), createEnrollment);
+/**
+ * Get all students enrolled in a course (Instructor/Admin)
+ */
+router.get(
+  "/instructor/course/:courseId",
+  protect,
+  authorize("instructor", "admin"),
+  getEnrollmentByCourseForInstructor
+);
 
 /**
   Get all courses the logged-in student has enrolled in
@@ -43,7 +53,12 @@ router.get("/my", protect, authorize("student"), async (req, res) => {
 /**
  *  all enrollments for a specific course (student/admin)
  */
-router.get("/course/:courseId", protect, getEnrollmentByCourseForStudent);
+router.get(
+  "/course/:courseId",
+  protect,
+  authorize("instructor", "admin", "student"),
+  getEnrollmentByCourseForStudent
+);
 
 /**
  * Get all enrollments (Admin only)
@@ -58,6 +73,6 @@ router.get("/:id", protect, getEnrollmentById);
 /**
  *    Delete or cancel an enrollment
  */
-router.delete("/:id", protect, deleteEnrollment);
+router.delete("/:id", protect, authorize("student", "admin"), deleteEnrollment);
 
 export default router;
