@@ -1,6 +1,5 @@
 import * as userService from "./user-service.js";
 import { generateToken } from "../../utils/generateToken.js";
-import { success } from "zod";
 
 // REGISTER
 export const registerUser = async (req, res, next) => {

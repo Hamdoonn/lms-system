@@ -1,7 +1,6 @@
-"use client";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Eye } from "lucide-react";
-import { AttendanceData } from "@/lib/AttendanceData";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -23,106 +22,173 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export default function EnrolledCourses() {
+export default function AttendancePage() {
   const [open, setOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingCourses, setLoadingCourses] = useState(false);
 
+  //  Fetch Enrolled Courses from Backend
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("enrolledCourses")) || [];
-    setEnrolledCourses(data);
+    const fetchEnrolledCourses = async () => {
+      try {
+        setLoadingCourses(true);
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:4000/api/enrollments/my",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        if (response.data.success) {
+          setEnrolledCourses(response.data.data);
+        } else {
+          setEnrolledCourses([]);
+        }
+      } catch (error) {
+        console.error("Error fetching enrolled courses:", error);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+
+    fetchEnrolledCourses();
   }, []);
 
-  const handleViewAttendance = (course) => {
-    setSelectedCourse(course);
-    setOpen(true);
-  };
+  // Handle View Attendance button
+  const handleViewAttendance = async (course) => {
+    try {
+      setSelectedCourse(course);
+      setAttendanceRecords([]);
+      setLoading(true);
 
-  const courseAttendance = selectedCourse
-    ? AttendanceData.filter(
-        (record) => record.course === selectedCourse.courseName
-      )
-    : [];
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user || !token) {
+        console.error("No user or token found");
+        return;
+      }
+
+      const response = await axios.get(
+        `http://localhost:4000/api/attendance/student/${user._id}/${course.course._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setAttendanceRecords(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching attendance:", error);
+    } finally {
+      setLoading(false);
+      setOpen(true);
+    }
+  };
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-semibold mb-6">My Attendance </h1>
+      <h1 className="text-3xl font-semibold mb-6">My Attendance</h1>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Course Name</TableHead>
-            <TableHead>Instructor</TableHead>
-            <TableHead>Date Enrolled</TableHead>
-            <TableHead>Action</TableHead>
-          </TableRow>
-        </TableHeader>
+      {loadingCourses ? (
+        <p className="text-gray-500 text-center py-6">Loading courses...</p>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Course Name</TableHead>
+              <TableHead>Instructor</TableHead>
+              <TableHead>Date Enrolled</TableHead>
+              <TableHead>Action</TableHead>
+            </TableRow>
+          </TableHeader>
 
-        <TableBody>
-          {enrolledCourses.length > 0 ? (
-            enrolledCourses.map((course) => (
-              <TableRow key={course.id}>
-                <TableCell>{course.courseName}</TableCell>
-                <TableCell>{course.instructor}</TableCell>
-                <TableCell>{course.dateEnrolled}</TableCell>
-                <TableCell>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        onClick={() => handleViewAttendance(course)}
-                        className=" bg-[#4c008210] rounded-full border-none outline-none hover:bg-[#4c008210] cursor-pointer"
-                        variant="outline"
-                      >
-                        <Eye color="#4b0082" size={16} />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>See attendance</p>
-                    </TooltipContent>
-                  </Tooltip>
+          <TableBody>
+            {enrolledCourses.length > 0 ? (
+              enrolledCourses.map((enrollment) => (
+                <TableRow key={enrollment._id}>
+                  <TableCell>{enrollment.course?.title}</TableCell>
+                  <TableCell>{enrollment.course?.instructor}</TableCell>
+                  <TableCell>
+                    {new Date(enrollment.createdAt).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          onClick={() => handleViewAttendance(enrollment)}
+                          className="bg-[#4c008210] rounded-full border-none outline-none hover:bg-[#4c008210]"
+                          variant="outline"
+                        >
+                          <Eye color="#4b0082" size={16} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>See attendance</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  className="text-center text-gray-500 py-6"
+                >
+                  No enrolled courses found.
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center text-gray-500 py-6">
-                No enrolled courses found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      )}
 
       {/* Attendance Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              Attendance - {selectedCourse?.courseName || ""}
+              Attendance - {selectedCourse?.course?.title || ""}
             </DialogTitle>
           </DialogHeader>
 
-          {courseAttendance.length > 0 ? (
+          {loading ? (
+            <p className="text-center text-gray-500 py-4">Loading...</p>
+          ) : attendanceRecords.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead>Remarks</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {courseAttendance.map((record) => (
-                  <TableRow key={record.id}>
-                    <TableCell>{record.date}</TableCell>
+                {attendanceRecords.map((record, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      {new Date(record.date).toLocaleDateString()}
+                    </TableCell>
                     <TableCell
                       className={`font-medium ${
                         record.status === "Present"
                           ? "text-green-600"
-                          : "text-red-500"
+                          : record.status === "Absent"
+                          ? "text-red-500"
+                          : "text-yellow-600"
                       }`}
                     >
                       {record.status}
                     </TableCell>
+                    <TableCell>{record.remarks || "-"}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

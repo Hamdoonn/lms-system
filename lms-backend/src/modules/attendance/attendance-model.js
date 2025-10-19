@@ -2,15 +2,27 @@ import mongoose from "mongoose";
 
 const attendanceSchema = new mongoose.Schema(
   {
-    studentName: { type: String, required: true },
-    course: { type: String, required: true },
-    date: { type: Date, required: true },
+    student: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+      default: Date.now,
+    },
     status: {
       type: String,
-      enum: ["Present", "Absent", "Late", "Leave"], // ✅ Added more options
+      enum: ["Present", "Absent"],
       default: "Absent",
     },
-    remarks: { type: String }, // optional notes (like “medical leave” etc.)
+    remarks: { type: String },
   },
   { timestamps: true }
 );

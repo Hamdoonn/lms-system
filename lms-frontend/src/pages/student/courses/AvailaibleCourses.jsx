@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useMemo, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
@@ -15,9 +13,9 @@ import {
 } from "@/components/ui/pagination";
 import { toast, Toaster } from "sonner";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const AvailableCourses = () => {
-  // Sample 25 demo courses
   const [allCourses, setAllCourses] = useState([]);
 
   useEffect(() => {
@@ -70,7 +68,7 @@ const AvailableCourses = () => {
 
   const handleEnroll = async (courseId) => {
     try {
-      const token = localStorage.getItem("token"); // ✅ store your token after login
+      const token = localStorage.getItem("token"); //store token after login
 
       if (!token) {
         toast.error("Please login first to enroll in a course");
@@ -82,14 +80,13 @@ const AvailableCourses = () => {
         { courseId }, // send courseId
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ send JWT in header
+            Authorization: `Bearer ${token}`, //send JWT in header
           },
         }
       );
 
       if (response.status === 201 || response.data.success) {
         toast.success("Enrolled successfully!");
-        // Optional: redirect or update enrolled courses
       } else {
         toast.error(response.data.message || "Failed to enroll");
       }
@@ -160,7 +157,7 @@ const AvailableCourses = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
             {currentCourses.map((course) => (
               <Card
-                key={course.id}
+                key={course._id}
                 className="group p-0 rounded-2xl overflow-hidden border hover:shadow-md transition-all duration-300"
               >
                 {/* Image */}
@@ -180,7 +177,11 @@ const AvailableCourses = () => {
 
                 {/* Details */}
                 <div className="p-5 space-y-2">
-                  <h3 className="text-lg font-semibold">{course.title}</h3>
+                  <Link to={`/student/courses/${course._id}`}>
+                    <h3 className="text-lg font-semibold hover:text-[#4b0082] transition-colors duration-200">
+                      {course.title}
+                    </h3>
+                  </Link>
                   <p className="text-sm text-gray-500">
                     by {course.instructor}
                   </p>
@@ -209,12 +210,24 @@ const AvailableCourses = () => {
                   </span>
                 </div>
 
-                <Button
-                  onClick={() => handleEnroll(course._id)}
-                  className="mx-5 mb-5 bg-[#4b0082] text-white font-medium cursor-pointer transition-all ease-in-out duration-300 hover:bg-[#4c0082b8]"
-                >
-                  Enroll now
-                </Button>
+                <div className="flex gap-3 px-5 mb-5">
+                  <Button
+                    onClick={() => handleEnroll(course._id)}
+                    className="flex-1 bg-[#4b0082] text-white font-medium cursor-pointer transition-all ease-in-out duration-300 hover:bg-[#4c0082b8]"
+                  >
+                    Enroll Now
+                  </Button>
+
+                  <Button
+                    onClick={() =>
+                      (window.location.href = `/student/courses/${course._id}`)
+                    }
+                    variant="ghost"
+                    className=" cursor-pointer flex-1 border-[#4b0082] text-zinc-400 hover:bg-[#4c00821a] hover:text-[#4b0082] transition-all duration-300"
+                  >
+                    View Details
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
