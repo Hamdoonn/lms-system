@@ -66,15 +66,14 @@ export default function AttendancePage() {
       setLoading(true);
 
       const token = localStorage.getItem("token");
-      const user = JSON.parse(localStorage.getItem("user"));
 
-      if (!user || !token) {
+      if (!token) {
         console.error("No user or token found");
         return;
       }
 
       const response = await axios.get(
-        `http://localhost:4000/api/attendance/student/${user._id}/${course.course._id}`,
+        `http://localhost:4000/api/attendance/student/${course.course._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

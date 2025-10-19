@@ -38,11 +38,12 @@ router.get(
   attendanceController.getAttendanceById
 );
 
+// Students can view their own attendance for a course
 router.get(
-  "/student/:studentId/:courseId",
+  "/student/:courseId",
   protect,
-  authorize("student", "instructor", "admin"),
-  attendanceController.getAttendanceByStudentAndCourse
+  authorize("student"),
+  attendanceController.getMyAttendanceByCourse
 );
 
 export default router;
