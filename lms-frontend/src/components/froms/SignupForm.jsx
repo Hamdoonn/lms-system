@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -13,10 +15,17 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-import { toast } from "sonner";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import axios from "axios";
+
 const signupSchema = z.object({
   name: z.string().min(5, "Name must be at least 5 characters"),
   email: z.string().email("Invalid email address"),
@@ -26,6 +35,7 @@ const signupSchema = z.object({
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -45,8 +55,9 @@ const SignupForm = () => {
         "http://localhost:4000/api/users/register",
         values
       );
+
       if (res.data.success) {
-        toast.success("Signup Successfull");
+        toast.success("Signup Successful");
         setTimeout(() => {
           window.location.href = "/auth/login";
         }, 1500);
@@ -55,7 +66,7 @@ const SignupForm = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Error while signing up");
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -113,19 +124,24 @@ const SignupForm = () => {
           )}
         />
 
-        {/* Role Field */}
+        {/* Role Field*/}
         <FormField
           control={form.control}
           name="role"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Role</FormLabel>
-              <FormControl>
-                <select {...field} className="border rounded px-2 py-1 w-full">
-                  <option value="student">Student</option>
-                  <option value="instructor">Instructor</option>
-                </select>
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select your role" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="instructor">Instructor</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
