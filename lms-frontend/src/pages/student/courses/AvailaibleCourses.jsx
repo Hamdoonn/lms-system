@@ -11,6 +11,14 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
 import { toast, Toaster } from "sonner";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -111,6 +119,7 @@ const AvailableCourses = () => {
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-3 mb-8">
+        {/* Search Input */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
           <Input
@@ -124,31 +133,45 @@ const AvailableCourses = () => {
           />
         </div>
 
-        <select
+        {/* Category Select */}
+        <Select
+          onValueChange={(value) => {
+            setCategory(value);
+            setPage(1);
+          }}
           value={category}
-          onChange={(e) => {
-            setCategory(e.target.value);
-            setPage(1);
-          }}
-          className="h-11 px-3 rounded-md border text-sm bg-white"
         >
-          {categories.map((cat) => (
-            <option key={cat}>{cat}</option>
-          ))}
-        </select>
+          <SelectTrigger className="h-11 w-[180px] px-3 rounded-md border text-sm bg-white">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((cat) => (
+              <SelectItem key={cat} value={cat}>
+                {cat}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-        <select
-          value={level}
-          onChange={(e) => {
-            setLevel(e.target.value);
+        {/* Level Select */}
+        <Select
+          onValueChange={(value) => {
+            setLevel(value);
             setPage(1);
           }}
-          className="h-11 px-3 rounded-md border text-sm bg-white"
+          value={level}
         >
-          {levels.map((lvl) => (
-            <option key={lvl}>{lvl}</option>
-          ))}
-        </select>
+          <SelectTrigger className="h-11 w-[180px] px-3 rounded-md border text-sm bg-white">
+            <SelectValue placeholder="Select level" />
+          </SelectTrigger>
+          <SelectContent>
+            {levels.map((lvl) => (
+              <SelectItem key={lvl} value={lvl}>
+                {lvl}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Course Cards */}
