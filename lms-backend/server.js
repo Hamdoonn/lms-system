@@ -14,7 +14,8 @@ import enrollmentRoutes from "./src/modules/enrollment/enrollment-routes.js";
 
 import User from "./src/modules/user/user-model.js";
 import cors from "cors";
-
+import { fileURLToPath } from "url";
+import path from "path";
 dotenv.config();
 
 const app = express();
@@ -25,6 +26,10 @@ app.use(
   })
 );
 app.use(express.json());
+
+// resolve __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 //connect mongodb
 connectDB().then(() => {
@@ -67,6 +72,7 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/submissions", submissionRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

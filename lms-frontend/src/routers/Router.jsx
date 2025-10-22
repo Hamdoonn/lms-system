@@ -12,11 +12,12 @@ import AppSidebar from "@/components/app-sidebar";
 import StudentDashboard from "@/pages/student/StudentDashboard";
 import AvailaibleCourses from "@/pages/student/courses/AvailaibleCourses";
 import EnrolledCourses from "@/pages/student/courses/EnrolledCourses";
-import Assignments from "@/pages/student/Assignments";
+import Assignments from "@/pages/student/assignments/Assignments";
 import Grades from "@/pages/student/Grades";
 import StudentAttendance from "@/pages/student/Attendance";
 import CourseDetail from "@/pages/student/courses/CourseDetail";
-
+import Checkout from "@/pages/student/checkout/Checkout";
+import AssignmentDetails from "@/pages/student/assignments/AssignmentDetails";
 //Dashboard Router
 import DashboardRouter from "@/pages/dashboard/DashboardRouter";
 //admin routes
@@ -81,7 +82,13 @@ const Router = () => {
           <Route path="courses/available" element={<AvailaibleCourses />} />
           <Route path="courses/enrolled" element={<EnrolledCourses />} />
           <Route path="courses/:id" element={<CourseDetail />} />
+          <Route path="checkout" element={<Checkout />} />
           <Route path="assignments" element={<Assignments />} />
+          <Route
+            path="/student/assignments/:id"
+            element={<AssignmentDetails />}
+          />
+
           <Route path="grades" element={<Grades />} />
           <Route path="attendance" element={<StudentAttendance />} />
         </Route>

@@ -74,35 +74,18 @@ const AvailableCourses = () => {
     page * itemsPerPage
   );
 
-  const handleEnroll = async (courseId) => {
-    try {
-      const token = localStorage.getItem("token"); //store token after login
+  const handleEnroll = (courseId) => {
+    const token = localStorage.getItem("token");
 
-      if (!token) {
-        toast.error("Please login first to enroll in a course");
-        return;
-      }
-
-      const response = await axios.post(
-        "http://localhost:4000/api/enrollments",
-        { courseId }, // send courseId
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, //send JWT in header
-          },
-        }
-      );
-
-      if (response.status === 201 || response.data.success) {
-        toast.success("Enrolled successfully!");
-      } else {
-        toast.error(response.data.message || "Failed to enroll");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error(error.response?.data?.message || "Error enrolling in course");
+    if (!token) {
+      toast.error("Please login first to enroll in a course");
+      return;
     }
+
+    // Redirect to checkout with courseId as query param
+    window.location.href = `/student/checkout?courseId=${courseId}`;
   };
+
   return (
     <section>
       {/* Header */}
