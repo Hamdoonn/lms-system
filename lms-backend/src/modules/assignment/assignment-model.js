@@ -12,6 +12,20 @@ const attachmentSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const submissionSchema = new mongoose.Schema(
+  {
+    student: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    file: {
+      name: String,
+      url: String,
+      size: Number,
+      type: String,
+    },
+    submittedAt: { type: Date, default: Date.now },
+  },
+  { _id: false }
+);
+
 const assignmentSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },

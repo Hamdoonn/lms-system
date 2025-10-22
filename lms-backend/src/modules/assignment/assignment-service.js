@@ -7,6 +7,19 @@ export const createAssignment = async (data) => {
   return await assignment.save();
 };
 
+export const addSubmission = async (assignmentId, fileData) => {
+  const assignment = await Assignment.findById(assignmentId);
+
+  if (!assignment) {
+    throw new Error("Assignment not found");
+  }
+
+  assignment.attachments.push(fileData);
+  await assignment.save();
+
+  return assignment;
+};
+
 /** GET ALL ASSIGNMENTS **/
 export const getAllAssignments = async () => {
   return await Assignment.find()

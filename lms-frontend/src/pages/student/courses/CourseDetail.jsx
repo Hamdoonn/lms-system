@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Clock, Star, CheckCircle } from "lucide-react";
@@ -7,11 +7,8 @@ import { toast } from "sonner"; // assuming you're using sonner
 
 const CourseDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [enrolling, setEnrolling] = useState(false);
-  const [enrolled, setEnrolled] = useState(false);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -27,40 +24,16 @@ const CourseDetail = () => {
     fetchCourse();
   }, [id]);
 
-  const handleEnroll = async () => {
+  const handleEnroll = (courseId) => {
     const token = localStorage.getItem("token");
+
     if (!token) {
-      toast.error("Please login first.");
-      navigate("/login");
+      toast.error("Please login first to enroll in a course");
       return;
     }
 
-    try {
-      setEnrolling(true);
-      const res = await axios.post(
-        "http://localhost:4000/api/enrollments",
-        { courseId: id },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (res.data.success || res.status === 200) {
-        toast.success(res.data.message || "Successfully enrolled in course!");
-        setEnrolled(true);
-      } else {
-        toast.error(res.data.message || "Enrollment failed.");
-      }
-    } catch (error) {
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error("Failed to enroll. Try again later.");
-      }
-      console.error("Enrollment error:", error);
-    } finally {
-      setEnrolling(false);
-    }
+    // Redirect to checkout with courseId as query param
+    window.location.href = `/student/checkout?courseId=${courseId}`;
   };
 
   if (loading)
@@ -112,21 +85,7 @@ const CourseDetail = () => {
               ${course.price}
             </h2>
 
-            <Button
-              onClick={handleEnroll}
-              disabled={enrolling || enrolled}
-              className={`${
-                enrolled
-                  ? "bg-green-600 cursor-not-allowed"
-                  : "bg-[#4b0082] hover:bg-[#3c0069]"
-              } text-white px-6 py-2 rounded-md transition-all duration-200`}
-            >
-              {enrolled
-                ? "Enrolled"
-                : enrolling
-                ? "Enrolling..."
-                : "Enroll Now"}
-            </Button>
+            <Button onClick={() => handleEnroll(course._id)}>Enroll</Button>
           </div>
         </div>
       </div>
